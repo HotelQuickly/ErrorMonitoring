@@ -11,7 +11,7 @@ class SecuredPresenter extends BasePresenter
 		$user = $this->getUser();
 		$backlink = $this->storeRequest();
 
-		if(!$this->productionMode && ($this->name == "Changelog:Changelog" || $this->name == 'Secured') ){
+		if(!$this->context->params['productionMode'] && ($this->name == "Changelog:Changelog" || $this->name == 'Secured') ){
 			// User can run changelog
 		} else {
 			// Ckecks if user is logged in, if not, redirect him to log in page

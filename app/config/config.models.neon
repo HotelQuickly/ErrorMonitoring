@@ -8,3 +8,4 @@ services:
 	- HQ\Model\Entity\LogErrorEntity
 	- HQ\Model\Entity\LogErrorLogCronRelEntity
 	- HQ\Model\Entity\UserEntity
+	- HQ\Model\Entity\ChangelogEntity

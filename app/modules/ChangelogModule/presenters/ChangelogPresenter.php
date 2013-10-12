@@ -7,6 +7,9 @@ namespace ChangelogModule;
  */
 class ChangelogPresenter extends \SecuredPresenter {
 
+	/** @autowire @var \HQ\Model\Entity\ChangelogEntity */
+	protected $changelogEntity;
+
 	public function actionDefault()
 	{
 		$this->template->errors = array();
@@ -14,7 +17,7 @@ class ChangelogPresenter extends \SecuredPresenter {
 
 	public function handleExecuteQueries()
 	{
-		$queriesToExecute = $this->models->changelog->getTable()
+		$queriesToExecute = $this->changelogEntity->getTable()
 			->where('executed', 0)
 			->order('id');
 		$errors = $this->context->dbChangelog->executeQueries($queriesToExecute);
@@ -28,12 +31,12 @@ class ChangelogPresenter extends \SecuredPresenter {
 
 	public function renderDefault()
 	{
-		$this->template->queriesToExecute = $this->models->changelog->getTable()->where('executed', 0);
+		$this->template->queriesToExecute = $this->changelogEntity->getTable()->where('executed', 0);
 	}
 
 	public function createComponentAddToChangelog()
 	{
-		$form = new \Forms\BaseForm;
+		$form = new \Nette\Application\UI\Form;
 		$form->addText('description', 'Short description')
 			->setRequired('Write short description what you are changing');
 		$form->addTextArea('queries', 'SQL queries', 60, 20)
