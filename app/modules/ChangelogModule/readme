@@ -1,0 +1,4 @@
+To config.neon add to services:
+dbChangelog:
+	class: ChangelogModule\DbChangelog
+	arguments: [@modelLoader, %appDir%]

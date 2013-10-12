@@ -1,0 +1,9 @@
+{block title}{_'Admin'}{/block}
+
+{block content}
+
+	{if $user->isAllowed('Backend:Admin:RoomAvailability', 'manage')}
+	{control roomAvailability }
+	{/if}
+
+{/block}

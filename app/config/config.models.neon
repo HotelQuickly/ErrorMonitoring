@@ -1,0 +1,10 @@
+services:
+	- HQ\Model\Entity\LstErrorTpEntity
+	- HQ\Model\Entity\LstLangEntity
+	- HQ\Model\Entity\LogEntity
+	- HQ\Model\Entity\LogVisitEntity
+	- HQ\Model\Entity\LogCronEntity
+	- HQ\Model\Entity\CronEntity
+	- HQ\Model\Entity\LogErrorEntity
+	- HQ\Model\Entity\LogErrorLogCronRelEntity
+	- HQ\Model\Entity\UserEntity

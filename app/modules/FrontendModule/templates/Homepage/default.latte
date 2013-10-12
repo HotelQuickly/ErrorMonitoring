@@ -1,0 +1,16 @@
+{block title}{_'Homepage'}{/block}
+
+{block flashes}
+	{snippet flashMessages}
+	<div class="flashes" id="basic-info-flash" n:if="!empty($flashes)">
+		<div n:foreach="$flashes as $flash" class="clearfix alert alert-{$flash->type}">
+			{$flash->message}
+			<a class="close" data-dismiss="alert" href="#">&times;</a>
+		</div>
+	</div>
+	{/snippet}
+{/block}
+
+{block content}
+	It works!
+{/block}

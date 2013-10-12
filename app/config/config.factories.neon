@@ -1,0 +1,3 @@
+services:
+	cacheFactory: HQ\Factory\CacheFactory(@cacheStorage, Nette\Caching\Storages\FileStorage(%appDir%/../temp/cache/), Nette\Caching\Storages\MemcachedStorage('hqlivecachecluster.yhtjcl.cfg.apse1.cache.amazonaws.com', '11211'))
+	templateFactory: HQ\Template\TemplateFactory(%appDir%, ...)

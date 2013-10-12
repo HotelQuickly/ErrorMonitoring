@@ -1,0 +1,279 @@
+<?php
+
+namespace HQ\Model\Entity;
+
+use Nette,
+	Nette\Caching\Cache,
+	Nette\Database\Connection,
+	Nette\Database\Table\ActiveRow;
+
+class BaseEntity extends \Nette\Object
+{
+
+	const INCLUDE_DELETED = true;
+
+	/** @var string */
+	protected $tableName;
+
+	/** @var Nette\Database\Connection */
+	private $primaryDatabase;
+
+	/** @var Nette\Security\User */
+	private $user;
+
+	/** @var string */
+	private $connectionName = "default";
+
+	/** @var HotelQuickly\ConnectionPool */
+	private $connectionPool;
+
+
+	public function __construct(
+		\HQ\ConnectionPool $connectionPool,
+		Nette\Security\User $user = null,
+		$tableName = null
+	) {
+		$this->user = $user;
+		$this->connectionPool = $connectionPool;
+
+		if (!$this->tableName) {
+			$this->tableName = ($tableName ?: $this->getTableNameFromClassName());
+		}
+	}
+
+
+	final public function setTableName($tableName)
+	{
+		$this->tableName = $tableName;
+		return $this;
+	}
+
+
+	final public function getDatabase()
+	{
+		return $this->getConnection();
+	}
+
+
+	final public function getDatabaseReplica()
+	{
+		return $this->getConnection("replica");
+	}
+
+
+	final public function getConnection($name = null)
+	{
+		return $this->connectionPool->getConnection($name ?: $this->connectionName);
+	}
+
+
+	final public function setConnectionName($name)
+	{
+		$this->connectionName = $name;
+		return $this;
+	}
+
+
+	public function getTable()
+	{
+		return new \HQ\Database\Table\Selection($this->tableName, $this->getConnection(), $this->user);
+	}
+
+
+	public function explodeAndExecute($query) {
+		$queryArray = explode(';', $query);
+
+		foreach($queryArray as $queryArrayItem) {
+			$queryArrayItem = trim($queryArrayItem);
+			if (empty($queryArrayItem)) {
+				continue;
+			}
+
+			$this->database->prepare($queryArrayItem)->execute();
+		}
+
+		return true;
+	}
+
+
+	public function getTableReplica()
+	{
+		return new HQ\Database\Table\Selection($this->tableName, $this->getConnection("replica"), $this->user);
+	}
+
+
+	/**
+	 * @param  bool $includeDdeleted
+	 * @return \Nette\Database\Table\Selection
+	 */
+	public function findAll($includeDeleted = false)
+	{
+		$result = $this->getTable()
+			->where($this->tableName . '.' . 'id > 0');
+
+		if (!$includeDeleted) {
+			$result->where($this->tableName . '.' . 'del_flag', 0);
+		}
+
+		return $result;
+	}
+
+
+	/**
+	 * Sets del_flag = 1 for required row
+	 * @param  int $id
+	 * @return int
+	 */
+	public function delete($id)
+	{
+		$row = $this->find($id);
+
+		if (!$row) {
+			throw new Nette\InvalidArgumentException("Row with id '$id' does not exist!");
+		}
+
+		return $row->update(array(
+			"del_flag" => 1,
+			"upd_process_id" => __METHOD__,
+		));
+	}
+
+
+	/**
+	 * @param  array $by
+	 * @param  bool  $includeDdeleted
+	 * @return \Nette\Database\Table\Selection
+	 */
+	public function findBy(array $by, $includeDeleted = false)
+	{
+		return $this->findAll($includeDeleted)->where($by);
+	}
+
+
+	/**
+	 * @param  string 		$key
+	 * @param  string|NULL 	$value
+	 * @param  string|NULL 	$order
+	 * @param  bool 		$includeDdeleted
+	 * @return array
+	 */
+	public function fetchPairs($key = "id", $value = "name", $order = "name DESC", $includeDeleted = false)
+	{
+		$result = $this->findAll($includeDeleted);
+		if (!empty($order)) {
+			$result->order($order);
+		}
+		return $result->fetchPairs($key, $value);
+	}
+
+
+	/**
+	 * @param array $by
+	 * @param  bool $includeDdeleted
+	 * @return \Nette\Database\Table\ActiveRow|FALSE
+	 */
+	public function findOneBy(array $by, $includeDeleted = false)
+	{
+		return $this->findBy($by, $includeDeleted)->limit(1)->fetch();
+	}
+
+
+	/**
+	 * Shortcut for $this->getTable()->insert()
+	 * @param  array  $data
+	 * @return Nette\Database\Table\ActiveRow
+	 */
+	public function insert(array $data)
+	{
+		if (empty($data["ins_dt"])) {
+			$data["ins_dt"] = new \DateTime;
+		}
+		return $this->getTable()->insert($data);
+	}
+
+	public function update(ActiveRow $entity, array $data)
+	{
+		$entity->update($data);
+	}
+
+
+	/**
+	 * @param  int $id
+	 * @param  bool $includeDdeleted
+	 * @return \Nette\Database\Table\ActiveRow|FALSE
+	 */
+	public function find($id, $includeDeleted = false)
+	{
+		return $this->findOneBy(array('id' => $id), $includeDeleted);
+	}
+
+
+	/**
+	 * Insert row in database or update existing one.
+	 * @param  array
+	 * @return \Nette\Database\Table\ActiveRow automatically found based on first "column => value" pair in $values
+	 */
+	public function insertOrUpdate(array $values)
+	{
+		$pairs = array();
+
+		foreach ($values as $key=>$val) {
+			if( $val instanceof \DateTime ) {
+				$values[$key] = $val->format('Y-m-d H:i:s');
+			}
+		}
+
+		foreach ($values as $key => $value) {
+			$pairs[] = "`$key` = '$value'"; // warning: SQL injection possible if $values infected!
+		}
+
+		$implodedPairs = implode(', ', $pairs);
+		$implodedKeys = implode(', ', array_keys($values));
+		$implodedValues = implode("', '", array_values($values));
+
+		$sqlQuery = ''
+			. 'INSERT INTO `' . $this->tableName . '` (' . $implodedKeys . ') VALUES (\'' . $implodedValues . '\')'
+			.' ON DUPLICATE KEY UPDATE ' . $implodedPairs;
+
+		$this->getDatabase()->query($sqlQuery);
+
+		return $this->findOneBy($values);
+	}
+
+
+	public function insertIgnore(array $values)
+	{
+		$temp_values = $values;
+		unset($temp_values["ins_dt"], $temp_values["ins_process_id"], $temp_values["upd_dt"], $temp_values["upd_process_id"], $temp_values["ins_user_id"], $temp_values["upd_user_id"]);
+		$existingRow = $this->findOneBy($temp_values);
+		if($existingRow || $existingRow instanceof \Nette\Database\Table\ActiveRow){
+			return $existingRow;
+		}
+		else{
+			try {
+				$row = $this->insert($values);
+				return $row;
+			} catch(\PDOException $e) {
+				//$this->logger->logError($e);
+			}
+		}
+	}
+
+
+	/////////////////////
+	// PRIVATE METHODS //
+	/////////////////////
+
+	/**
+	 * @return string
+	 */
+	private function getTableNameFromClassName()
+	{
+		$className = str_replace('Entity', '', get_class($this));
+		$tableNameCamelCase = (strrchr($className, "\\")? substr(strrchr($className, "\\"), 1) : $className);
+		$splitTableName = preg_split('/(?=[A-Z])/', $tableNameCamelCase, -1, PREG_SPLIT_NO_EMPTY);
+		$tableName = strtolower(implode('_', $splitTableName));
+		return $tableName;
+	}
+
+}

@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:fb="http://www.facebook.com/2008/fbml" xmlns:og="http://opengraphprotocol.org/schema/" xml:lang="cs" lang="cs"> 
+<head>
+    <meta charset="utf-8">
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+	<meta http-equiv="cache-control" content="no-cache">
+	<meta http-equiv="content-language" content="en">
+	<meta name="language" content="en">
+	<meta name="copyright" content="">
+	<meta name="author" content=""> 
+	<meta name="robots" content="noindex" />
+	<meta name="description" content="{block page_description}{/block}">
+
+	<!-- start: Mobile Specific -->
+	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+	<!-- end: Mobile Specific -->
+	
+	<link rel="image_src" href="{$logo}" />
+	<title>{ifset #title}{include #title} | {/ifset}HotelQuickly.com</title>
+	
+	{control css '/bootstrap.css',
+				 '/bootstrap-responsive.css',
+				 '/icons.css',
+				 '/icons-color.css',
+				 '/social-icons.css',
+				 '/hover.css',
+				 '/fancybox.css',
+				 '/style-frontend.css',
+				 '/hq-styles.css',
+				 '/font.googleapis.com.css'}
+	{block css}{/block}
+	
+  </head>
+
+
+
+
+
+
+<body>
+	
+	<!--start: Header -->
+	<header>
+		
+		<!--start: Container -->
+		<div class="container">
+			
+			<!--start: Navbar -->
+			<div class="navbar navbar-inverse">
+	    		<div class="navbar-inner">
+	          		<a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+	            		<span class="icon-bar"></span>
+	            		<span class="icon-bar"></span>
+	            		<span class="icon-bar"></span>
+	          		</a>
+					<a class="brand" n:href=":Frontend:Homepage:default"><img src="{$baseUri}/img/logo-header.png" width="312" height="40" /></a>
+	          		<div class="nav-collapse collapse">
+	            		<ul class="nav">
+	              			<li class="{ifCurrent 'Frontend:Homepage:default'}active{/ifCurrent}"><a n:href=":Frontend:Homepage:default" class="homepage"></a></li>
+	              			<li class="{ifCurrent 'Frontend:About:overview'}active{/ifCurrent}"><a n:href=":Frontend:About:overview">{_'About Us'}</a></li>
+	              			<li class="{ifCurrent 'Frontend:Press:default'}active{/ifCurrent}"><a n:href=":Frontend:Press:default">{_'Press'}</a></li>
+	              			<li class="{ifCurrent 'Frontend:Faq:default'}active{/ifCurrent}"><a n:href=":Frontend:Faq:default">{_'FAQs'}</a></li>
+	              			<li><a href="{$baseUri}/blog">{_'Blog'}</a></li>
+	              			<li class="forHotels {ifCurrent 'Login:default'}active{/ifCurrent}"><a n:href=":Login:default">{_'For Hotels'|uppercase}</a></li>
+	            		</ul>
+	          		</div>
+	        	</div>
+	      	</div>
+			<!--end: Navbar -->
+			
+		</div>
+		<!--end: Container-->			
+			
+	</header>
+	<!--end: Header-->
+	
+	<!--start: Wrapper-->
+	<div id="wrapper">
+				
+		<!--start: Container -->
+    	<div class="container">
+	
+			<div class="row">
+				<div class="span12" style="margin-top: 20px;">
+					<h1>{block header_title}{/block}</h2>
+				</div>
+			</div>
+			
+			{block content}{/block}
+	
+			</div>
+		<!--end: Container-->
+				
+	</div>
+	<!-- end: Wrapper  -->			
+
+	<footer>
+		<!-- start: Footer -->
+		<div id="footer">
+			
+			<!-- start: Container -->
+			<div class="container">
+				
+				<div class="row">
+					<div class="span12" style="margin-bottom: 40px">
+						<a class="brand" n:href="Homepage:default"><img src="{$baseUri}/img/logo-header-without-pillow.png" /></a>
+					</div>
+				</div>
+				
+				<!-- start: Row -->
+				<div class="row">
+	
+					<div class="span3" style="border-top: 1px solid #666;">
+						<ul>
+		          			<li><a n:href=":Frontend:About:overview">{_'About Us'}</a></li>
+		          			<li><a n:href=":Frontend:Press:default">{_'Press'}</a></li>
+		          			<li><a n:href=":Frontend:Faq:default">{_'FAQs'}</a></li>
+		          			<li><a href="{$baseUri}/blog">{_'Blog'}</a></li>
+						</ul>
+					</div>
+	
+					<div class="span3" style="border-top: 1px solid #666;">
+						<ul>
+		          			<li><a n:href=":Frontend:About:contact">{_'Contact Us'}</a></li>
+		          			<li><a n:href=":Frontend:About:terms">{_'Terms of use'}</a></li>
+		          			<li><a n:href=":Frontend:About:privacy">{_'Privacy Policy'}</a></li>
+						</ul>
+					</div>
+										
+				</div>
+				<!-- end: Row -->	
+				
+			</div>
+			<!-- end: Container  -->
+	
+		</div>
+		<!-- end: Footer -->
+	
+		<!-- start: Copyright -->
+		<div id="copyright">
+		
+			<!-- start: Container -->
+			<div class="container">
+			
+				<div class="span12" style="margin-bottom: 120px;">
+					<p>
+						&copy; 2013 Hotel Quickly Pte Ltd. All rights reserved.
+					</p>
+				</div>
+		
+			</div>
+			<!-- end: Container  -->
+			
+		</div>	
+		<!-- end: Copyright -->
+	</footer>
+</body>
+</html>

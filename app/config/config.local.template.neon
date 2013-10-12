@@ -1,0 +1,11 @@
+nette:
+	database:
+		default:
+			dsn: 'mysql:host=localhost;dbname=hqjim'
+			user: hqdev
+			password: tDXAFW9nazpxJe5y
+		replica:
+			dsn: 'mysql:host=localhost;dbname=hqjim'
+			user: hqread
+			password: tDXAFW9nazpxJe5y
+			

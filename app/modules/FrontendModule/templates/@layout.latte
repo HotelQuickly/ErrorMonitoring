@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:fb="http://www.facebook.com/2008/fbml" xmlns:og="http://opengraphprotocol.org/schema/" xml:lang="cs" lang="cs">
+<head>
+    <meta charset="utf-8">
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+	<meta http-equiv="cache-control" content="no-cache">
+	<meta http-equiv="content-language" content="en">
+	<meta name="language" content="en">
+	<meta name="copyright" content="">
+	<meta name="author" content="">
+
+	<meta name="robots" content="index, follow" />
+	<meta name="googlebot" content="index,follow,snippet,archive" />
+
+	<!-- start: Mobile Specific -->
+	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+	<!-- end: Mobile Specific -->
+
+	<link rel="icon" type="image/png" href="http://www.hotelquickly.com/favicon.ico" sizes="16x16" />
+	<link rel="icon" type="image/png" href="http://www.hotelquickly.com/favicon.png" sizes="32x32" />
+	<title>{ifset #title}{include #title} | {/ifset}HotelQuickly.com</title>
+
+	{control css '/bootstrap.css',
+				 '/bootstrap-responsive.css',
+				 '/font-awesome.css',
+				 '/font-awesome-ie7.css'
+				}
+
+	{block css}{/block}
+  </head>
+<body>
+{if extension_loaded('newrelic')}
+{!newrelic_get_browser_timing_header()}
+{/if}
+
+{block flashes}{/block}
+	<!--start: Header -->
+	<header>
+
+	</header>
+	<!--end: Header-->
+	<!--start: Wrapper-->
+	<div id="wrapper">
+
+		<!--start: Container -->
+    	<div class="container">
+
+			<div class="row">
+				<div class="span12" style="margin-top: 20px;">
+					<h1>{block header_title}{/block}</h2>
+				</div>
+			</div>
+
+			{block content}{/block}
+		</div>
+		<!--end: Container-->
+
+	</div>
+	<!-- end: Wrapper  -->
+
+	{block footer}
+		<footer>
+			<!-- start: Footer -->
+
+			<!-- start: Copyright -->
+			<div id="copyright">
+
+				<!-- start: Container -->
+				<div class="container">
+
+					<div class="span12" style="margin-bottom: 120px;">
+						<p>
+							&copy; 2013 Hotel Quickly Ltd. All rights reserved.
+						</p>
+					</div>
+				</div>
+				<!-- end: Container  -->
+
+			</div>
+			<!-- end: Copyright -->
+		</footer>
+	{/block}
+
+	<!-- start: Java Script -->
+	<!-- Placed at the end of the document so the pages load faster -->
+	{control js '/jquery-1.8.2.js',
+			   '/bootstrap.js'
+			   }
+	<!-- end: Java Script -->
+
+	{include '../../../templates/google/gaBasicTracking.latte'}
+
+	{if extension_loaded('newrelic')}
+	{!newrelic_get_browser_timing_footer()}
+	{/if}
+</body>
+</html>

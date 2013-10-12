@@ -1,0 +1,14 @@
+services:
+	connectionPool: HQ\ConnectionPool(%productionMode%, %database%, Nette\Database\Reflection\DiscoveredReflection(), Nette\Caching\Storages\FileStorage(%appDir%/../temp/cache/))
+	database: @connectionPool::getConnection()
+	databaseReplica: @connectionPool::getConnection("replica")
+	routerFactory: HQ\RouterFactory(%secureRoutes%)
+	router: @routerFactory::createRouter
+	authenticator: Authenticator
+	logCron: HQ\LogCron(%cron%, %productionMode%, ... )
+	exceptionService: HQ\ExceptionService(%appDir%, ...)
+	translator: HQ\DbTranslator(Nette\Caching\Cache(@cacheStorage), ...)
+	logger: HQ\Logger
+	dbChangelog:
+		class: ChangelogModule\DbChangelog
+		arguments: [@database, @database::table(changelog), %appDir%]

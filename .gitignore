@@ -1,0 +1,34 @@
+www_root/webtemp/*
+www_root/webtemp
+
+# OS generated files #
+######################
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+
+/nbproject/private/
+nbproject/project.properties
+nbproject/project.xml
+
+# Eclipse generate #
+####################
+
+.settings
+.buildpath
+.project
+
+
+app/config/config.local.neon
+
+www_root/maintenance-setup.php
+www_root/setup-maintenance.php
+www_root/setup-debug-mode.php
+
+composer.lock
+tests/php.ini-unix
+tests/coverage.dat
+tests/run-config
+tests/config.tests.neon
