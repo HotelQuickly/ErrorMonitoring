@@ -5,8 +5,8 @@ if (@!include __DIR__ . '/../vendor/autoload.php') {
 	exit(1);
 }
 
-include __DIR__ . '/BaseTestCase.php';
-include __DIR__ . '/BaseIntegrationTestCase.php';
+include __DIR__ . '/unit/BaseTestCase.php';
+include __DIR__ . '/integration/BaseIntegrationTestCase.php';
 
 // configure environment
 Tester\Helpers::setup();
@@ -39,7 +39,6 @@ $configurator->setDebugMode(FALSE);
 $configurator->setTempDirectory(__DIR__ . '/../temp');
 $configurator->createRobotLoader()
 	->addDirectory(__DIR__ . '/../app')
-	->addDirectory(__DIR__ . '/../lib')
 	->register();
 
 $configurator->addConfig(__DIR__ . '/../app/config/config.neon', false);

@@ -105,7 +105,7 @@ function run_test() {
 	if [ -n "$phpIni" ]; then
 		php -c "$phpIni" "$RUNNER_SCRIPT_FILE" -j 20 "$@"
 	else
-		php -c "$DIR/php.ini-unix" "$RUNNER_SCRIPT_FILE" -j 20 -c "$DIR/php.ini-unix" "$@"
+		php -c "$DIR/php.ini-unix" "$RUNNER_SCRIPT_FILE" -j 20 "$@"
 	fi
 
 	error=$?

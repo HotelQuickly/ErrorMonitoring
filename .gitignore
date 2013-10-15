@@ -27,8 +27,16 @@ www_root/maintenance-setup.php
 www_root/setup-maintenance.php
 www_root/setup-debug-mode.php
 
+vendor/*
+temp/*
+log/*
+
 composer.lock
 tests/php.ini-unix
 tests/coverage.dat
 tests/run-config
 tests/config.tests.neon
+
+tests/changelog.log
+
+tests/changelog.log
