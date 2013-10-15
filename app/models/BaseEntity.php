@@ -76,7 +76,7 @@ class BaseEntity extends \Nette\Object
 
 	public function getTable()
 	{
-		return new \HQ\Database\Table\Selection($this->tableName, $this->getConnection(), $this->user);
+		return $this->getDatabase()->table($this->tableName);
 	}
 
 
@@ -244,7 +244,7 @@ class BaseEntity extends \Nette\Object
 	public function insertIgnore(array $values)
 	{
 		$temp_values = $values;
-		unset($temp_values["ins_dt"], $temp_values["ins_process_id"], $temp_values["upd_dt"], $temp_values["upd_process_id"], $temp_values["ins_user_id"], $temp_values["upd_user_id"]);
+		unset($temp_values["ins_dt"], $temp_values["ins_process_id"], $temp_values["upd_dt"], $temp_values["upd_process_id"]);
 		$existingRow = $this->findOneBy($temp_values);
 		if($existingRow || $existingRow instanceof \Nette\Database\Table\ActiveRow){
 			return $existingRow;

@@ -9,18 +9,12 @@ DROP TABLE IF EXISTS `aa`;
 CREATE TABLE `aa` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `ins_dt` datetime NOT NULL,
-  `ins_user_id` int(11) NOT NULL DEFAULT '-1',
   `ins_process_id` varchar(255) DEFAULT NULL,
   `upd_dt` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-  `upd_user_id` int(11) NOT NULL DEFAULT '-1',
   `upd_process_id` varchar(255) DEFAULT NULL,
   `del_flag` tinyint(1) NOT NULL DEFAULT '0',
   PRIMARY KEY (`id`),
-  KEY `ins_user_id` (`ins_user_id`),
-  KEY `upd_user_id` (`upd_user_id`),
-  KEY `upd_dt` (`upd_dt`),
-  CONSTRAINT `aa_ibfk_1` FOREIGN KEY (`ins_user_id`) REFERENCES `user` (`id`),
-  CONSTRAINT `aa_ibfk_2` FOREIGN KEY (`upd_user_id`) REFERENCES `user` (`id`)
+  KEY `upd_dt` (`upd_dt`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 
@@ -34,18 +28,12 @@ CREATE TABLE `changelog` (
   `executed` tinyint(1) DEFAULT '0',
   `ins_timestamp` int(11) DEFAULT NULL,
   `ins_dt` datetime NOT NULL,
-  `ins_user_id` int(11) NOT NULL DEFAULT '-1',
   `ins_process_id` varchar(255) CHARACTER SET latin1 NOT NULL,
   `upd_dt` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-  `upd_user_id` int(11) NOT NULL DEFAULT '-1',
   `upd_process_id` varchar(255) CHARACTER SET utf8 DEFAULT NULL,
   `del_flag` tinyint(1) NOT NULL DEFAULT '0',
   PRIMARY KEY (`id`),
-  KEY `ins_user_id` (`ins_user_id`),
-  KEY `upd_user_id` (`upd_user_id`),
-  KEY `upd_dt` (`upd_dt`),
-  CONSTRAINT `changelog_ibfk_1` FOREIGN KEY (`ins_user_id`) REFERENCES `user` (`id`),
-  CONSTRAINT `changelog_ibfk_2` FOREIGN KEY (`upd_user_id`) REFERENCES `user` (`id`)
+  KEY `upd_dt` (`upd_dt`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_czech_ci;
 
 
@@ -60,18 +48,12 @@ CREATE TABLE `cron` (
   `return_values_sql` text,
   `running_flag` tinyint(4) DEFAULT '0',
   `ins_dt` datetime NOT NULL,
-  `ins_user_id` int(11) NOT NULL DEFAULT '-1',
   `ins_process_id` varchar(255) DEFAULT NULL,
   `upd_dt` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-  `upd_user_id` int(11) NOT NULL DEFAULT '-1',
   `upd_process_id` varchar(255) DEFAULT NULL,
   `del_flag` tinyint(1) NOT NULL DEFAULT '0',
   PRIMARY KEY (`id`),
-  KEY `ins_user_id` (`ins_user_id`),
-  KEY `upd_user_id` (`upd_user_id`),
-  KEY `upd_dt` (`upd_dt`),
-  CONSTRAINT `cron_ibfk_1` FOREIGN KEY (`ins_user_id`) REFERENCES `user` (`id`),
-  CONSTRAINT `cron_ibfk_2` FOREIGN KEY (`upd_user_id`) REFERENCES `user` (`id`)
+  KEY `upd_dt` (`upd_dt`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 
@@ -85,17 +67,11 @@ CREATE TABLE `log` (
   `param3` text,
   `elapsed` float DEFAULT NULL,
   `ins_dt` datetime NOT NULL,
-  `ins_user_id` int(11) NOT NULL DEFAULT '-1',
   `ins_process_id` varchar(255) DEFAULT NULL,
   `upd_dt` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-  `upd_user_id` int(11) NOT NULL DEFAULT '-1',
   `upd_process_id` varchar(255) DEFAULT NULL,
   `del_flag` tinyint(1) NOT NULL DEFAULT '0',
-  PRIMARY KEY (`id`),
-  KEY `ins_user_id` (`ins_user_id`),
-  KEY `upd_user_id` (`upd_user_id`),
-  CONSTRAINT `log_ibfk_1` FOREIGN KEY (`ins_user_id`) REFERENCES `user` (`id`),
-  CONSTRAINT `log_ibfk_2` FOREIGN KEY (`upd_user_id`) REFERENCES `user` (`id`)
+  PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 
@@ -112,19 +88,13 @@ CREATE TABLE `log_cron` (
   `reported_flag` tinyint(1) NOT NULL DEFAULT '0',
   `manual_flag` tinyint(1) NOT NULL DEFAULT '0',
   `ins_dt` datetime NOT NULL,
-  `ins_user_id` int(11) NOT NULL DEFAULT '-1',
   `ins_process_id` varchar(255) DEFAULT NULL,
   `upd_dt` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-  `upd_user_id` int(11) NOT NULL DEFAULT '-1',
   `upd_process_id` varchar(255) DEFAULT NULL,
   `del_flag` tinyint(1) NOT NULL DEFAULT '0',
   PRIMARY KEY (`id`),
   KEY `cron_id` (`cron_id`),
-  KEY `ins_user_id` (`ins_user_id`),
-  KEY `upd_user_id` (`upd_user_id`),
-  CONSTRAINT `log_cron_ibfk_1` FOREIGN KEY (`cron_id`) REFERENCES `cron` (`id`),
-  CONSTRAINT `log_cron_ibfk_2` FOREIGN KEY (`ins_user_id`) REFERENCES `user` (`id`),
-  CONSTRAINT `log_cron_ibfk_3` FOREIGN KEY (`upd_user_id`) REFERENCES `user` (`id`)
+  CONSTRAINT `log_cron_ibfk_1` FOREIGN KEY (`cron_id`) REFERENCES `cron` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 
@@ -141,20 +111,14 @@ CREATE TABLE `log_error` (
   `reported_flag` tinyint(1) NOT NULL DEFAULT '0',
   `occured_cnt` int(11) unsigned NOT NULL DEFAULT '1',
   `ins_dt` datetime NOT NULL,
-  `ins_user_id` int(11) NOT NULL DEFAULT '-1',
   `ins_process_id` varchar(255) DEFAULT NULL,
   `upd_dt` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-  `upd_user_id` int(11) NOT NULL DEFAULT '-1',
   `upd_process_id` varchar(255) DEFAULT NULL,
   `del_flag` tinyint(1) NOT NULL DEFAULT '0',
   PRIMARY KEY (`id`),
   KEY `error_tp_id` (`error_tp_id`),
-  KEY `ins_user_id` (`ins_user_id`),
-  KEY `upd_user_id` (`upd_user_id`),
   KEY `assigned_user_id` (`assigned_user_id`),
   CONSTRAINT `log_error_ibfk_1` FOREIGN KEY (`error_tp_id`) REFERENCES `lst_error_tp` (`id`),
-  CONSTRAINT `log_error_ibfk_2` FOREIGN KEY (`ins_user_id`) REFERENCES `user` (`id`),
-  CONSTRAINT `log_error_ibfk_3` FOREIGN KEY (`upd_user_id`) REFERENCES `user` (`id`),
   CONSTRAINT `log_error_ibfk_4` FOREIGN KEY (`assigned_user_id`) REFERENCES `user` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
@@ -165,21 +129,15 @@ CREATE TABLE `log_error_log_cron_rel` (
   `log_error_id` int(11) NOT NULL,
   `log_cron_id` int(11) NOT NULL,
   `ins_dt` datetime NOT NULL,
-  `ins_user_id` int(11) NOT NULL DEFAULT '-1',
   `ins_process_id` varchar(255) DEFAULT NULL,
   `upd_dt` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-  `upd_user_id` int(11) NOT NULL DEFAULT '-1',
   `upd_process_id` varchar(255) DEFAULT NULL,
   `del_flag` tinyint(1) NOT NULL DEFAULT '0',
   PRIMARY KEY (`id`),
   KEY `log_error_id` (`log_error_id`),
   KEY `log_cron_id` (`log_cron_id`),
-  KEY `ins_user_id` (`ins_user_id`),
-  KEY `upd_user_id` (`upd_user_id`),
   CONSTRAINT `log_error_log_cron_rel_ibfk_1` FOREIGN KEY (`log_cron_id`) REFERENCES `log_cron` (`id`),
-  CONSTRAINT `log_error_log_cron_rel_ibfk_2` FOREIGN KEY (`log_error_id`) REFERENCES `log_error` (`id`),
-  CONSTRAINT `log_error_log_cron_rel_ibfk_3` FOREIGN KEY (`ins_user_id`) REFERENCES `user` (`id`),
-  CONSTRAINT `log_error_log_cron_rel_ibfk_4` FOREIGN KEY (`upd_user_id`) REFERENCES `user` (`id`)
+  CONSTRAINT `log_error_log_cron_rel_ibfk_2` FOREIGN KEY (`log_error_id`) REFERENCES `log_error` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 
@@ -196,10 +154,8 @@ CREATE TABLE `log_task_queue` (
   `successful_flag` tinyint(1) NOT NULL DEFAULT '0',
   `manual_flag` tinyint(1) NOT NULL DEFAULT '0',
   `ins_dt` datetime NOT NULL,
-  `ins_user_id` int(11) NOT NULL DEFAULT '-1',
   `ins_process_id` varchar(255) DEFAULT NULL,
   `upd_dt` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-  `upd_user_id` int(11) NOT NULL DEFAULT '-1',
   `upd_process_id` varchar(255) DEFAULT NULL,
   `del_flag` tinyint(1) NOT NULL DEFAULT '0',
   PRIMARY KEY (`id`),
@@ -226,10 +182,8 @@ CREATE TABLE `log_visit` (
   `api_response` mediumtext,
   `elapsed` float DEFAULT NULL,
   `ins_dt` datetime NOT NULL,
-  `ins_user_id` int(11) NOT NULL DEFAULT '-1',
   `ins_process_id` varchar(50) DEFAULT NULL,
   `upd_dt` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-  `upd_user_id` int(11) NOT NULL DEFAULT '-1',
   `upd_process_id` varchar(50) DEFAULT NULL,
   `del_flag` tinyint(1) NOT NULL DEFAULT '0',
   PRIMARY KEY (`id`),
@@ -244,19 +198,13 @@ CREATE TABLE `lst_error_tp` (
   `code` varchar(255) DEFAULT NULL,
   `name` varchar(30) DEFAULT NULL,
   `ins_dt` datetime NOT NULL,
-  `ins_user_id` int(11) NOT NULL DEFAULT '-1',
   `ins_process_id` varchar(255) DEFAULT NULL,
   `upd_dt` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-  `upd_user_id` int(11) NOT NULL DEFAULT '-1',
   `upd_process_id` varchar(255) DEFAULT NULL,
   `del_flag` tinyint(1) NOT NULL DEFAULT '0',
   PRIMARY KEY (`id`),
   UNIQUE KEY `AK_LST_ERROR_TP` (`code`),
-  KEY `ins_user_id` (`ins_user_id`),
-  KEY `upd_user_id` (`upd_user_id`),
-  KEY `upd_dt` (`upd_dt`),
-  CONSTRAINT `lst_error_tp_ibfk_1` FOREIGN KEY (`ins_user_id`) REFERENCES `user` (`id`),
-  CONSTRAINT `lst_error_tp_ibfk_2` FOREIGN KEY (`upd_user_id`) REFERENCES `user` (`id`)
+  KEY `upd_dt` (`upd_dt`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 
@@ -273,19 +221,13 @@ CREATE TABLE `lst_lang` (
   `flag_url` varchar(255) DEFAULT NULL,
   `order` int(11) DEFAULT '0',
   `ins_dt` datetime NOT NULL,
-  `ins_user_id` int(11) NOT NULL DEFAULT '-1',
   `ins_process_id` varchar(255) DEFAULT NULL,
   `upd_dt` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-  `upd_user_id` int(11) NOT NULL DEFAULT '-1',
   `upd_process_id` varchar(255) DEFAULT NULL,
   `del_flag` tinyint(1) NOT NULL DEFAULT '0',
   PRIMARY KEY (`id`),
   UNIQUE KEY `AK_LST_LANG` (`code`),
-  KEY `ins_user_id` (`ins_user_id`),
-  KEY `upd_user_id` (`upd_user_id`),
-  KEY `upd_dt` (`upd_dt`),
-  CONSTRAINT `lst_lang_ibfk_1` FOREIGN KEY (`ins_user_id`) REFERENCES `user` (`id`),
-  CONSTRAINT `lst_lang_ibfk_2` FOREIGN KEY (`upd_user_id`) REFERENCES `user` (`id`)
+  KEY `upd_dt` (`upd_dt`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 
@@ -303,21 +245,15 @@ CREATE TABLE `user` (
   `date_of_birth` date DEFAULT NULL,
   `gender` varchar(10) DEFAULT NULL,
   `ins_dt` datetime NOT NULL,
-  `ins_user_id` int(11) NOT NULL DEFAULT '-1',
   `ins_process_id` varchar(255) DEFAULT NULL,
   `upd_dt` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-  `upd_user_id` int(11) NOT NULL DEFAULT '-1',
   `upd_process_id` varchar(255) DEFAULT NULL,
   `del_flag` tinyint(1) NOT NULL DEFAULT '0',
   PRIMARY KEY (`id`),
   UNIQUE KEY `AK_USER` (`email`,`fb_uid`),
   KEY `lang_id` (`lang_id`),
-  KEY `ins_user_id` (`ins_user_id`),
-  KEY `upd_user_id` (`upd_user_id`),
   KEY `upd_dt` (`upd_dt`),
-  CONSTRAINT `user_ibfk_4` FOREIGN KEY (`lang_id`) REFERENCES `lst_lang` (`id`),
-  CONSTRAINT `user_ibfk_8` FOREIGN KEY (`ins_user_id`) REFERENCES `user` (`id`),
-  CONSTRAINT `user_ibfk_9` FOREIGN KEY (`upd_user_id`) REFERENCES `user` (`id`)
+  CONSTRAINT `user_ibfk_4` FOREIGN KEY (`lang_id`) REFERENCES `lst_lang` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 
