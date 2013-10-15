@@ -54,6 +54,11 @@ class RouterFactory
 			$router[] = new Route('[<lang=en [a-z]{2}>/]frontend.homepage/new[/]', 'Homepage:default', Route::ONE_WAY);
 
 			// API Router
+			$apiRouter = new RouteList('Api');
+			$apiRouter[] = new Route('api/<apiVersion>/<presenter>[/<action>]', 'Homepage:default');
+			$router[] = $apiRouter;
+
+			// Frontend Router
 			$frontendRouter = new RouteList('Frontend');
 			$frontendRouter[] = new Route('healthy-check', 'HealthyCheck:default');
 			$frontendRouter[] = new Route('[<lang=en [a-z]{2}>/]', 'Homepage:default');

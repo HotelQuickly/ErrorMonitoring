@@ -158,7 +158,7 @@ class Logger {
 				. ($exception->getCode()? " #" . $exception->getCode() : '');
 
 			// Check if this exception has been submitted recently
-			$isReported = $this->logErrorEntity
+			$isReported = $this->logErrorEntity->getTable()
 				->where("message", $message)
 				->where("reported_flag", 0)
 				->where("ins_dt >= ?", $now->modify('-3 hours'))
@@ -175,7 +175,7 @@ class Logger {
 			}
 		} else {
 
-			$isReported = $this->logErrorEntity
+			$isReported = $this->logErrorEntity->getTable()
 				->where("message", $message)
 				->where("reported_flag", 0)
 				->where("url", $this->httpRequest->getUrl())
