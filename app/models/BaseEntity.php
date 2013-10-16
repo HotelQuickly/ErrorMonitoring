@@ -18,9 +18,6 @@ class BaseEntity extends \Nette\Object
 	/** @var Nette\Database\Connection */
 	private $primaryDatabase;
 
-	/** @var Nette\Security\User */
-	private $user;
-
 	/** @var string */
 	private $connectionName = "default";
 
@@ -30,10 +27,8 @@ class BaseEntity extends \Nette\Object
 
 	public function __construct(
 		\HQ\ConnectionPool $connectionPool,
-		Nette\Security\User $user = null,
 		$tableName = null
 	) {
-		$this->user = $user;
 		$this->connectionPool = $connectionPool;
 
 		if (!$this->tableName) {
@@ -98,7 +93,7 @@ class BaseEntity extends \Nette\Object
 
 	public function getTableReplica()
 	{
-		return new HQ\Database\Table\Selection($this->tableName, $this->getConnection("replica"), $this->user);
+		return new HQ\Database\Table\Selection($this->tableName, $this->getConnection("replica"));
 	}
 
 

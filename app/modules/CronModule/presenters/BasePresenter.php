@@ -8,16 +8,17 @@ namespace CronModule;
  */
 class BasePresenter extends \BasePresenter
 {
-	/** @autowire @var \HotelQuickly\LogCron  */
+	/** @autowire @var \HQ\LogCron  */
 	protected $logCron;
+
+	/** @autowire @var \HQ\Model\Entity\LogCronEntity */
+	protected $logCronEntity;
 
 	/** @var \Nette\Database\Table\ActiveRow */
 	protected $logCronRow;
 
 	/** @var \Nette\Database\Table\ActiveRow */
 	protected $cronRow;
-
-
 
 	public function startup() {
 		parent::startup();
@@ -71,7 +72,7 @@ class BasePresenter extends \BasePresenter
 		// Check for same tasks in db in interval
 		$dateCheck = new \DateTime;
 		$dateCheck->add( \DateInterval::createFromDateString('-30 seconds') );
-		$multipleCheck = $this->models->logCron->getTable()
+		$multipleCheck = $this->logCronEntity->getTable()
 			->where("del_flag", 0)
 			->where("cron_id", $this->cronRow->id)
 			->where("ins_dt >= ?", $dateCheck)

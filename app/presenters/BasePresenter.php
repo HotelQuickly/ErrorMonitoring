@@ -49,7 +49,6 @@ abstract class BasePresenter extends Nette\Application\UI\Presenter {
 
 			$this->lastLogItem = $this->logger->logVisit(
 				$httpRequest->getUrl()->path, // URL
-				($this->user->isLoggedIn() ? $this->user->id : null),  // USER_ID
 				$ipAddress,  // IP
 				$httpRequest->getHeader('User-Agent'),  // USER_AGENT
 				$httpRequest->getReferer()  // REFERRER

@@ -54,7 +54,7 @@ class Logger {
 		$this->serverAddress = isset($_SERVER['SERVER_ADDR']) ? $_SERVER['SERVER_ADDR'] : null;
 	}
 
-	public function logVisit($url, $user_id, $ip, $user_agent, $referer = null, $visited_user_id = null, $visited_event_id = null)
+	public function logVisit($url, $ip, $user_agent, $referer = null, $visited_user_id = null, $visited_event_id = null)
 	{
 		$method = null;
 		if ($this->httpRequest->isMethod('GET')) {
@@ -67,7 +67,6 @@ class Logger {
 
 		$data = array(
 			'url' => $url,
-			'user_id' => ($user_id ? $user_id : -1),
 			'user_agent' => (!empty($user_agent) ? substr($user_agent, 0, 50) : null),
 			'ajax_flag' => ($this->ajax == true ? 1 : 0),
 			'referral' => (!empty($referer) ? substr($referer, 0, 50) : null),

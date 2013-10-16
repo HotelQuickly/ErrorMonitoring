@@ -2,6 +2,8 @@ parameters:
 	lang: en
 
 	cron:
+		filesDir: dummy
+		reportRecipients: it@hotelquickly.com
 	secureRoutes: false
 
 	gaCode:

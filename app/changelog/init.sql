@@ -101,7 +101,6 @@ CREATE TABLE `log_cron` (
 DROP TABLE IF EXISTS `log_error`;
 CREATE TABLE `log_error` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `assigned_user_id` int(11) NOT NULL DEFAULT '-1',
   `error_tp_id` int(11) NOT NULL,
   `log_visit_id` int(11) NOT NULL DEFAULT '-1',
   `message` text NOT NULL,
@@ -117,9 +116,7 @@ CREATE TABLE `log_error` (
   `del_flag` tinyint(1) NOT NULL DEFAULT '0',
   PRIMARY KEY (`id`),
   KEY `error_tp_id` (`error_tp_id`),
-  KEY `assigned_user_id` (`assigned_user_id`),
-  CONSTRAINT `log_error_ibfk_1` FOREIGN KEY (`error_tp_id`) REFERENCES `lst_error_tp` (`id`),
-  CONSTRAINT `log_error_ibfk_4` FOREIGN KEY (`assigned_user_id`) REFERENCES `user` (`id`)
+  CONSTRAINT `log_error_ibfk_1` FOREIGN KEY (`error_tp_id`) REFERENCES `lst_error_tp` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 
@@ -166,7 +163,6 @@ CREATE TABLE `log_task_queue` (
 DROP TABLE IF EXISTS `log_visit`;
 CREATE TABLE `log_visit` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `user_id` int(10) NOT NULL DEFAULT '-1',
   `ajax_flag` tinyint(4) NOT NULL DEFAULT '-1',
   `api_flag` tinyint(4) NOT NULL DEFAULT '-1',
   `important_flag` tinyint(4) NOT NULL DEFAULT '-1',
@@ -186,9 +182,7 @@ CREATE TABLE `log_visit` (
   `upd_dt` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   `upd_process_id` varchar(50) DEFAULT NULL,
   `del_flag` tinyint(1) NOT NULL DEFAULT '0',
-  PRIMARY KEY (`id`),
-  KEY `user_id` (`user_id`),
-  CONSTRAINT `log_visit_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`)
+  PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 
