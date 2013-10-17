@@ -14,7 +14,13 @@ abstract class BasePresenter extends \BasePresenter
 	/** @autowire @var \HQ\Api\ErrorMessageService */
 	protected $errorMessageService;
 
+	public function getJsonRequest()
+	{
+		$jsonRequestData = json_decode(file_get_contents('php://input'), true);
+		$this->logger->updatePostData($jsonRequestData);
 
+		return $jsonRequestData;
+	}
 
 	public function prepareAndSendErrorResponse($errorId, $param1 = null, $param2 = null)
 	{

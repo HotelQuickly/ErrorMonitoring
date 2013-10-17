@@ -91,6 +91,12 @@ class Logger {
         	->update($data);
     }
 
+
+	public function updatePostData(array $data)
+	{
+		return $this->updateLogVisit($this->lastLogVisitRow->id, array('http_post' => $this->createQueryString($data)));
+	}
+
     /**
      * Logs any type of message to database table log
      * @param  string $message
