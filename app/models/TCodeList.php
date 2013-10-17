@@ -29,7 +29,7 @@ trait TCodeList {
 	public function findByCode($code)
 	{
 		return $this->findOneBy(array(
-			"name" => $code,
+			"code" => $code,
 		));
 	}
 

@@ -51,6 +51,12 @@ class BaseIntegrationTestCase extends BaseTestCase
 		}
 	}
 
+	public function truncateAndInit()
+	{
+		$this->truncateTables();
+		$this->initDatabase();
+	}
+
 	public function startTransaction()
 	{
 		$this->database->exec('START TRANSACTION');
