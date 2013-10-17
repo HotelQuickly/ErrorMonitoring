@@ -1,6 +1,8 @@
 parameters:
 	lang: en
 
+	apiTargetHosts:
+
 	cron:
 		filesDir: dummy
 		reportRecipients: it@hotelquickly.com

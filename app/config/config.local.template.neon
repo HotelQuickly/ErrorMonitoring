@@ -1,4 +1,6 @@
-nette:
+parameters:
+	apiTargetHosts:
+		ihub: http://ihub
 	database:
 		default:
 			dsn: 'mysql:host=localhost;dbname=hqjim'
@@ -8,4 +10,4 @@ nette:
 			dsn: 'mysql:host=localhost;dbname=hqjim'
 			user: hqread
 			password: tDXAFW9nazpxJe5y
-			
+
