@@ -210,29 +210,7 @@ class BaseEntity extends \Nette\Object
 	 */
 	public function insertOrUpdate(array $values)
 	{
-		$pairs = array();
-
-		foreach ($values as $key=>$val) {
-			if( $val instanceof \DateTime ) {
-				$values[$key] = $val->format('Y-m-d H:i:s');
-			}
-		}
-
-		foreach ($values as $key => $value) {
-			$pairs[] = "`$key` = '$value'"; // warning: SQL injection possible if $values infected!
-		}
-
-		$implodedPairs = implode(', ', $pairs);
-		$implodedKeys = implode(', ', array_keys($values));
-		$implodedValues = implode("', '", array_values($values));
-
-		$sqlQuery = ''
-			. 'INSERT INTO `' . $this->tableName . '` (' . $implodedKeys . ') VALUES (\'' . $implodedValues . '\')'
-			.' ON DUPLICATE KEY UPDATE ' . $implodedPairs;
-
-		$this->getDatabase()->query($sqlQuery);
-
-		return $this->findOneBy($values);
+		$this->getDatabase()->query("INSERT INTO `$this->tableName` ? ON DUPLICATE KEY UPDATE ?", $values, $values);
 	}
 
 
