@@ -97,7 +97,7 @@ class DbChangelog extends \Nette\Object {
 		}
 
 		// load files with database changes
-		foreach (Finder::findFiles('*.sql')->in($this->changelogPath) as $key => $file) {
+		foreach (Finder::findFiles('*.sql')->exclude('init.sql')->in($this->changelogPath) as $key => $file) {
 			// check if file was already inserted into changelog table
 			$filename = $file->getBasename('.sql');
 			$fileParts = explode('_', $filename);

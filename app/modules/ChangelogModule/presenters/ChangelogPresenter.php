@@ -13,6 +13,7 @@ class ChangelogPresenter extends \SecuredPresenter {
 	public function actionDefault()
 	{
 		$this->template->errors = array();
+		$this->context->dbChangelog->importNewChangelogData();
 	}
 
 	public function handleExecuteQueries()
