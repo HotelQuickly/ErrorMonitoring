@@ -13,3 +13,7 @@ services:
 		class: ChangelogModule\DbChangelog
 		arguments: [@database, @database::table(changelog), %appDir%]
 	errorMessageService: HQ\Api\ErrorMessageService
+	requestFactory:
+		class: HQ\Api\RequestFactory(%apiTargetHosts%)
+		setup:
+			- setApplicationCode(%applicationCode%)

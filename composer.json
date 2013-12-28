@@ -19,7 +19,8 @@
 		"nette/nette": ">= 2.0.11",
 		"JanMarek/WebLoader": "2.1.*",
 		"kdyby/autowired": "@dev",
-		"kdyby/bootstrap-form-renderer": "2.0.*"
+		"kdyby/bootstrap-form-renderer": "2.0.*",
+		"HotelQuickly/BaseLibrary": "dev-master"
 	},
 	"require-dev": {
 		"nette/tester": "@dev",
@@ -29,6 +30,10 @@
 		{
 			"type": "composer",
 			"url": "http://addons2.nette.org/"
+		},
+		{
+			"type": "vcs",
+			"url":  "ssh://git@github.com:22/HotelQuickly/BaseLibrary.git"
 		}
 	]
 }

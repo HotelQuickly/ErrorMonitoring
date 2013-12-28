@@ -1,7 +1,10 @@
 parameters:
 	lang: en
 
+	applicationCode: "XX01" # fill in the application code
+
 	apiTargetHosts:
+		backend: http://extranet.hotelquickly.com
 
 	cron:
 		filesDir: dummy
