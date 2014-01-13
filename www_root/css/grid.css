@@ -1,0 +1,149 @@
+.grid { border-top:0; }
+
+.grid thead th { vertical-align:middle; }
+
+.grid th, .grid td { vertical-align:middle; }
+
+.grid .grid-filter-form input[type="text"] {
+    width: 100% !important;
+	padding-left:0;
+	padding-right:0;
+}
+
+.grid .grid-filter-form select {
+    width:100% !important;
+}
+
+.grid .grid-order{
+    display: block;
+    width: 10px;
+    height: 25px;
+    float:left;
+    margin-left: 5px;
+	margin-top:-3px;
+}
+
+.grid .grid-head-column .grid-label { float:left; display:block; }
+
+.grid .grid-order .grid-order-up{
+    width: 13px;
+    height: 8px;
+    display: block;
+}
+
+.grid .grid-order .grid-order-down{
+    width: 13px;
+    height: 8px;
+    display: block;
+    margin-top: 2px;
+}
+
+.grid .grid-order i { 
+	margin:0; 
+	opacity: 0.5;
+	filter: alpha(opacity=50);
+	-moz-opacity: 0.5;
+	-khtml-opacity: 0.5;
+}
+
+.grid .grid-order a:hover i, .grid .grid-order a.active i { 
+	opacity: 1;
+	filter: alpha(opacity=50);
+	-moz-opacity: 0.5;
+	-khtml-opacity: 0.5;
+}
+
+.grid input[type="text"].grid-editable{
+    width:100%;
+	padding-left:0;
+	padding-right:0;
+}
+
+.grid textarea.grid-editable{
+    width:100%;
+	padding-left:0;
+	padding-right:0;
+}
+
+.grid .grid-filter-row th {
+	background-color:#f2f2f2;
+}
+
+.grid select.grid-editable{
+    width:100%;
+}
+
+.grid textarea.grid-editable{
+    width:100%;
+}
+
+.grid-buttons {
+	white-space: nowrap;
+	width: 1px;
+}
+
+.grid .grid-side-bordered { border-left:1px solid #dddddd; border-right:1px solid #dddddd; }
+
+.grid-button { margin-right:5px; }
+
+.grid-filter-form { background-color: #fafafa;white-space: nowrap; }
+
+.grid .grid-head-column {
+	padding-top:8px;
+	padding-bottom:8px;
+	font-size:14px;
+	background-color: #fafafa;
+	background-image: -moz-linear-gradient(top, #f2f2f2, #ffffff);
+	background-image: -webkit-gradient(linear, 0 0, 0 100%, from(#f2f2f2), to(#ffffff));
+	background-image: -webkit-linear-gradient(top, #f2f2f2, #ffffff);
+	background-image: -o-linear-gradient(top, #f2f2f2, #ffffff);
+	background-image: linear-gradient(to bottom, #f2f2f2, #ffffff);
+}
+
+.grid .grid-panel { padding:0; border:0; vertical-align:bottom; position:relative; }
+
+.grid .grid-panel .grid-panel-inner { position:relative; min-height:30px; }
+
+.grid .grid-panel .grid-panel-inner .grid-upper-info { position:absolute; bottom:0; right:0; }
+
+.grid .grid-panel .grid-global-buttons { padding-bottom:10px;}
+
+.grid .grid-results { display:inline-block; background:#f5f5f5; padding:5px 10px; color:#535353; -moz-border-top-left-radius:4px; -moz-border-top-right-radius:4px; -webkit-border-top-left-radius:4px; -webkit-border-top-right-radius:4px; border-top-left-radius:4px; border-top-right-radius:4px; }
+
+.grid .grid-datepicker{
+    background-image: url("../../img/images/calendar.png");
+	background-repeat:no-repeat;
+	background-position:right center;
+}
+
+.grid .grid-bottom { background-color:#f5f5f5; }
+
+.grid .grid-current-link{
+    display:inline-block;
+	margin-right:10px;
+}
+
+.grid .alert { margin:5px 0; }
+
+.grid .grid-flashes th { padding:0; border:0; }
+
+.grid .grid-row-odd td { background-color:#f9f9f9; }
+.grid .grid-row-even td { background-color:#ffffff; }
+.grid .grid-row-odd:hover td, .grid .grid-row-even:hover td { background-color:#e7e7e7; }
+
+/* Cell individual classes */
+
+.grid .cell-center { text-align:center; }
+.grid .cell-small { font-size:11px; }
+.grid .cell-bold { font-weight:bold; }
+
+/* Cell background-colors */
+
+.grid td.cell-green { background-color:#dff0d8 !important; }
+.grid tr:hover > td.cell-green { background-color:#d0e9c6 !important; }
+.grid .cell-red { background-color:#f2dede !important; }
+.grid tr:hover > td.cell-red { background-color:#ebcccc !important; }
+.grid .cell-yellow { background-color:#fcf8e3 !important; }
+.grid tr:hover > td.cell-yellow { background-color:#faf2cc !important; }
+.grid .cell-blue { background-color:#d9edf7 !important; }
+.grid tr:hover > td.cell-blue { background-color:#c4e3f3 !important; }

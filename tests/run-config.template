@@ -1,0 +1,23 @@
+#!/bin/bash
+
+APP_DB_USER=root
+APP_DB_PASSWORD=
+APP_DB_NAME=hqdev
+
+TEST_DB_USER=root
+TEST_DB_PASSWORD=
+TEST_DB_NAME=hqtest
+
+LAST_CHANGELOG_FILENAME=changelog.log
+
+TMP_DIRECTORY="${DIR}/../temp"
+
+TMP_SQL_FILE=${TMP_DIRECTORY}/dump.sql
+TMP_LAST_CHANGELOG_FILE=${TMP_DIRECTORY}/changelog
+
+DIR_CHANGELOGS="${DIR}/../app/changelog"
+RUNNER_SCRIPT_FILE="$DIR/../vendor/nette/tester/Tester/tester.php"
+
+# boolean mindblow
+TRUE=0
+FALSE=1

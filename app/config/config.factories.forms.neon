@@ -1,0 +1,2 @@
+services:
+	baseFormFactory: HotelQuickly\Factory\Form\BaseFormFactory

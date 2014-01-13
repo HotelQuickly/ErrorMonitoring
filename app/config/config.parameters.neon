@@ -1,0 +1,32 @@
+parameters:
+	lang: en
+
+	applicationCode: "XX01" # fill in the application code
+
+	apiTargetHosts:
+		backend: http://extranet.hotelquickly.com
+
+	cron:
+		filesDir: dummy
+		reportRecipients: it@hotelquickly.com
+	secureRoutes: false
+
+	gaCode:
+
+	newrelic:
+		application:
+			prefix: HQ Live
+			allName: HQ Live All
+
+	adminEmail: it@hotelquickly.com
+	emailSender: michal.juhas@hotelquickly.com
+	beanstalk:
+		host : 127.0.0.1
+		port : 11300
+		timeout : 1
+
+	taskQueue:
+		tube_name : "hq"
+		priority_default : 10000
+		job_timeout : 600
+		worker_checker_url: ""

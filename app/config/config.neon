@@ -1,0 +1,20 @@
+nette:
+	application:
+		errorPresenter: Error
+php:
+	date.timezone: UTC
+	session.save_path: "%tempDir%/sessions"
+	zlib.output_compression: yes
+
+factories:
+	cache:
+		class: Nette\Caching\Cache(@cacheStorage)
+
+includes:
+	- config.parameters.neon
+	- config.models.neon
+	- config.repositories.neon
+	- config.services.neon
+	- config.factories.neon
+	- config.factories.grids.neon
+	- config.factories.forms.neon
