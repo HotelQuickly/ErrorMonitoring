@@ -17,3 +17,6 @@ services:
 		class: HQ\Api\RequestFactory(%apiTargetHosts%)
 		setup:
 			- setApplicationCode(%applicationCode%)
+	s3Proxy: HQ\Aws\S3Proxy(%aws%)
+	s3DataSource: HQ\ErrorMonitorinq\Datasource\S3DataSource
+	importService: \HQ\ErrorMonitorinq\ImportService

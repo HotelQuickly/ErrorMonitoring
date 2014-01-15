@@ -30,3 +30,11 @@ parameters:
 		priority_default : 10000
 		job_timeout : 600
 		worker_checker_url: ""
+	aws:
+		s3:
+			user: 'hq-error-monitoring-s3-errors'
+			awsManagementConsolePassword: '^MJ3ws}ErLJd'
+			accessKeyId: AKIAIMDUEF2DA2SIFPOQ
+			secretAccessKey: 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
+			bucket: hq-error-log
+			region: 'ap-southeast-1'
