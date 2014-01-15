@@ -9,3 +9,5 @@ services:
 	- HQ\Model\Entity\LogErrorLogCronRelEntity
 	- HQ\Model\Entity\UserEntity
 	- HQ\Model\Entity\ChangelogEntity
+	- HQ\Model\Entity\ErrorEntity
+	- HQ\Model\Entity\LstProjectEntity
