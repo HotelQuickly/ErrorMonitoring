@@ -20,7 +20,8 @@
 		"JanMarek/WebLoader": "2.1.*",
 		"kdyby/autowired": "@dev",
 		"kdyby/bootstrap-form-renderer": "2.0.*",
-		"HotelQuickly/BaseLibrary": "dev-master"
+		"HotelQuickly/BaseLibrary": "dev-master",
+                "aws/aws-sdk-php": "2.4.*"
 	},
 	"require-dev": {
 		"nette/tester": "@dev",
@@ -33,7 +34,7 @@
 		},
 		{
 			"type": "vcs",
-			"url":  "ssh://git@github.com:22/HotelQuickly/BaseLibrary.git"
+			"url":  "git@github.com:HotelQuickly/BaseLibrary.git"
 		}
 	]
 }
