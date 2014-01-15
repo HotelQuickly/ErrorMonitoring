@@ -121,15 +121,25 @@ class S3Proxy extends \Nette\Object {
     /**
      * List all files in bucket with given prefix
      * @param  string $prefix path on S3
-     * @return iterator with list of items
+     * @return array of items
      */
     public function getFiles($prefix = '')
     {
-        $iterator = $this->s3Client->getIterator('ListObjects', array(
+        return $this->getFilesIterator($prefix)->toArray();
+    }
+
+	/**
+     * List all files in bucket with given prefix
+     * @param  string $prefix path on S3
+     * @return Iterator
+     */
+	public function getFilesIterator($prefix = '', $marker = '')
+    {
+        return $this->s3Client->getIterator('ListObjects', array(
             'Bucket' => $this->bucket,
-            'Prefix' => $prefix
+			'Prefix' => $prefix,
+			'Marker' => $marker
         ));
-        return $iterator->toArray();
     }
 
     /**
