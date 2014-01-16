@@ -1,97 +1,62 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:fb="http://www.facebook.com/2008/fbml" xmlns:og="http://opengraphprotocol.org/schema/" xml:lang="cs" lang="cs">
-<head>
-    <meta charset="utf-8">
-	<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-	<meta http-equiv="cache-control" content="no-cache">
-	<meta http-equiv="content-language" content="en">
-	<meta name="language" content="en">
-	<meta name="copyright" content="">
-	<meta name="author" content="">
+    <head>
+        <meta charset="utf-8" />
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+        <meta http-equiv="cache-control" content="no-cache" />
+        <meta http-equiv="content-language" content="en" />
+        <meta name="language" content="en" />
+        <meta name="copyright" content="" />
+        <meta name="author" content="" />
+        <meta name="robots" content="noindex" />
+        <meta name="description" content="{block page_description}{/block}" />
 
-	<meta name="robots" content="index, follow" />
-	<meta name="googlebot" content="index,follow,snippet,archive" />
+        <!-- start: Mobile Specific -->
+        <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+        <!-- end: Mobile Specific -->
 
-	<!-- start: Mobile Specific -->
-	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-	<!-- end: Mobile Specific -->
+        <title>{ifset #title}{include #title} | {/ifset}HotelQuickly.com</title>
 
-	<link rel="icon" type="image/png" href="http://www.hotelquickly.com/favicon.ico" sizes="16x16" />
-	<link rel="icon" type="image/png" href="http://www.hotelquickly.com/favicon.png" sizes="32x32" />
-	<title>{ifset #title}{include #title} | {/ifset}HotelQuickly.com</title>
+        {control css '/bootstrap.css', '/bootstrap-responsive.css'}
+        {block css}{/block}
 
-	{control css '/bootstrap.css',
-				 '/bootstrap-responsive.css',
-				 '/font-awesome.css',
-				 '/font-awesome-ie7.css'
-				}
+    </head>
+    <body>
+        <header class="container">
+            <div class="navbar navbar-inverse">
+                <div class="navbar-inner">
+                    <a class="brand" href="#">Error Monitoring</a>
+                    <ul class="nav">
+                        <li n:class="$presenter->isLinkCurrent('Homepage:*') ? active"><a href="{link Homepage:default}">Dashboard</a></li>
+                        <li n:class="$presenter->isLinkCurrent('ErrorList:*') ? active"><a href="{link ErrorList:default}">Error list</a></li>
+                    </ul>
+                </div>
+            </div>
+        </header>
+        <div id="wrapper">
+            <div class="container">
+                <div class="row">
+                    <div class="span12" style="margin-top: 0px;">
+                        <h1>{block header_title}{/block}</h2>
+                    </div>
+                </div>
+                {block content}{/block}
+            </div>
+        </div>
+        <footer>
+            <div id="footer">
 
-	{block css}{/block}
-  </head>
-<body>
-{if extension_loaded('newrelic')}
-{!newrelic_get_browser_timing_header()}
-{/if}
-
-{block flashes}{/block}
-	<!--start: Header -->
-	<header>
-
-	</header>
-	<!--end: Header-->
-	<!--start: Wrapper-->
-	<div id="wrapper">
-
-		<!--start: Container -->
-    	<div class="container">
-
-			<div class="row">
-				<div class="span12" style="margin-top: 20px;">
-					<h1>{block header_title}{/block}</h2>
-				</div>
-			</div>
-
-			{block content}{/block}
-		</div>
-		<!--end: Container-->
-
-	</div>
-	<!-- end: Wrapper  -->
-
-	{block footer}
-		<footer>
-			<!-- start: Footer -->
-
-			<!-- start: Copyright -->
-			<div id="copyright">
-
-				<!-- start: Container -->
-				<div class="container">
-
-					<div class="span12" style="margin-bottom: 120px;">
-						<p>
-							&copy; 2013 Hotel Quickly Ltd. All rights reserved.
-						</p>
-					</div>
-				</div>
-				<!-- end: Container  -->
-
-			</div>
-			<!-- end: Copyright -->
-		</footer>
-	{/block}
-
-	<!-- start: Java Script -->
-	<!-- Placed at the end of the document so the pages load faster -->
-	{control js '/jquery-1.8.2.js',
-			   '/bootstrap.js'
-			   }
-	<!-- end: Java Script -->
-
-	{include '../../../templates/google/gaBasicTracking.latte'}
-
-	{if extension_loaded('newrelic')}
-	{!newrelic_get_browser_timing_footer()}
-	{/if}
-</body>
+            </div>
+            <div id="copyright">
+                <div class="container">
+                    <div class="span12" style="margin-bottom: 120px;">
+                        <p>
+                            &copy; 2013 Hotel Quickly Pte Ltd. All rights reserved.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </footer>
+        {control js '/jquery-1.8.2.js', '/jquery.nette.js', '/error-monitoring.js'}
+    </body>
 </html>

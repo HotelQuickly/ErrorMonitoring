@@ -7,12 +7,20 @@ class S3DataSource extends \Nette\Object implements IDataSource {
     /** @var \HQ\Aws\S3Proxy */
     private $proxy;
 
-    public function __construct(\HQ\Aws\S3Proxy $proxy) {
+	private $tempDir;
+
+    public function __construct($tempDir, \HQ\Aws\S3Proxy $proxy) {
+		$this->tempDir = $tempDir;
 		$this->proxy = $proxy;
     }
 
-	public function getFile($filePath, $targetPath) {
-		throw new \Nette\NotImplementedException;
+	public function getFileContent($filePath) {
+		$fileName = uniqid() . ".tmp";
+		$targetPath = $this->tempDir . "/" . $fileName;
+		$this->proxy->downloadFile($filePath, $targetPath);
+		$content = file_get_contents($targetPath);
+		unlink($targetPath);
+		return $content;
 	}
 
 	public function getFileList() {

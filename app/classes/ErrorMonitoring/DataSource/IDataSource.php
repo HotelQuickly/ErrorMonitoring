@@ -5,5 +5,5 @@ namespace HQ\ErrorMonitorinq\Datasource;
 interface IDataSource {
 	/** @var \Iterator */
     public function getFileList();
-    public function getFile($filePath, $targetPath);
+    public function getFileContent($filePath);
 }

@@ -62,12 +62,12 @@ class RouterFactory
 			$frontendRouter = new RouteList('Frontend');
 			$frontendRouter[] = new Route('healthy-check', 'HealthyCheck:default');
 			$frontendRouter[] = new Route('[<lang=en [a-z]{2}>/]', 'Homepage:default');
+			$frontendRouter[] = new Route('<presenter>/<action>[/<id>]', 'Homepage:default');
 			$router[] = $frontendRouter;
 
 			// Other routes
 			$router[] = new Route('login/', 'Login:default', $secureRoutes);
 			$router[] = new Route('error', 'Error:default');
-			$router[] = new Route('<presenter>/<action>[/<id>]', 'Homepage:default');
 		}
 		else {
 			$router = new SimpleRouter('Homepage:default');
