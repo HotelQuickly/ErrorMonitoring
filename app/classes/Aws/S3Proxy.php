@@ -179,5 +179,16 @@ class S3Proxy extends \Nette\Object {
         return $result;
     }
 
+	/**
+	 * Returns the URL to an object identified by its key.
+	 * If an expiration time is provided, the URL will be
+	 * signed and set to expire at the provided time.
+	 * @param Object key
+	 * @param Expiration time
+	 */
+	public function getObjectUrl($key, $expires = null)
+	{
+		return $this->s3Client->getObjectUrl($this->bucket, $key, $expires);
+	}
 }
 
