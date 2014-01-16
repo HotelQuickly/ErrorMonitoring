@@ -1,0 +1,66 @@
+{*
+/**
+* NiftyGrid - DataGrid for Nette
+*
+* @author	Jakub Holub
+* @copyright	Copyright (c) 2012 Jakub Holub
+* @license	New BSD Licence
+* @link		http://addons.nette.org/cs/niftygrid
+*/
+*}
+{if $paginator->pageCount > 1}
+<div class="grid-paginator pagination pagination-centered ">
+	<ul>
+		<li n:class="$paginator->isFirst() ? 'disabled'">
+			{if !$paginator->isFirst()}
+				<a n:href="this, 'page' => $paginator->getFirstPage()" class="ajax">&lt;&lt;</a>
+			{else}
+				<a n:href="this">&lt;&lt;</a>
+			{/if}
+		</li>
+		<li n:class="!($paginator->getPage() - 1 >= $paginator->getFirstPage()) ? 'disabled'">
+			{if $paginator->getPage() - 1 >= $paginator->getFirstPage()}
+				<a n:href="this, 'page' => $paginator->getPage() - 1" class="ajax">&lt;</a>
+			{else}
+				<a n:href="this">&lt;</a>
+			{/if}
+		</li>
+		
+		{for $i= ( ($paginator->getPage()-6) > 0)? $paginator->getPage()-6 : 1 ; $i<$paginator->getPage() && $i > 0; $i++}
+		<li>
+			<a n:href="this, 'page' => $i" class="ajax">
+				{$i}
+			</a>
+		</li>
+		{/for}
+		
+		<li class="active" data-lastpage="{$paginator->getLastPage()}">
+			<a n:href="this, 'page' => $paginator->getPage()" class="ajax">
+				{$paginator->getPage()}
+			</a>
+		</li>
+		
+		{for $i=$paginator->getPage()+1 ; ($i < $paginator->getPage()+6) && $i>$paginator->getPage() && $i <= $paginator->getLastPage(); $i++}
+		<li>
+			<a n:href="this, 'page' => $i" class="ajax">
+				{$i}
+			</a>
+		</li>
+		{/for}
+		<li n:class="!($paginator->getPage() + 1 <= $paginator->getLastPage()) ? 'disabled'">
+			{if $paginator->getPage() + 1 <= $paginator->getLastPage()}
+				<a n:href="this, 'page' => $paginator->getPage() + 1" class="ajax">&gt;</a>
+			{else}
+				<a n:href="this">&gt;</a>
+			{/if}
+		</li>
+		<li n:class="$paginator->isLast() ? 'disabled'">
+			{if !$paginator->isLast()}
+				<a n:href="this, 'page' => $paginator->getLastPage()" class="ajax">&gt;&gt;</a>
+			{else}
+				<a n:href="this">&gt;&gt;</a>
+			{/if}
+		</li>
+	</ul>
+</div>
+{/if}
