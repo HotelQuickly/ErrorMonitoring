@@ -50,6 +50,7 @@ class ImportService extends \Nette\Object {
 
 				if (!$errorRow) {
 					$errorFileContent = $this->dataSource->getFileContent($file->name);
+					$archiveFilePath = $this->dataSource->moveToArchive($file->name);
 					$this->exceptionParser->parse($errorFileContent);
 
 					$this->errorEntity->insert(array(
@@ -57,13 +58,11 @@ class ImportService extends \Nette\Object {
 						"title" => $this->exceptionParser->getTitle(),
 						"message" => $this->exceptionParser->getMessage(),
 						"source_file" => $this->exceptionParser->getSourceFile(),
-						"remote_file" => $file->name,
+						"remote_file" => $archiveFilePath,
 						"error_dt" => $file->lastModified,
 						"ins_process_id" => __METHOD__
 					));
 				}
-
-				$this->dataSource->moveToArchive($file->name);
 			}
 		}
 	}

@@ -31,6 +31,7 @@ class S3DataSource extends \Nette\Object implements IDataSource {
 	public function moveToArchive($filePath) {
 		$targetFilePath = substr_replace($filePath, "/archive", strpos($filePath, "/"), 0);
 		$this->proxy->moveFile($filePath, $targetFilePath);
+		return $targetFilePath;
 	}
 
 }
