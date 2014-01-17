@@ -12,6 +12,7 @@ class ImportPresenter extends \BasePresenter {
 
 	public function actionImportFiles() {
 		$this->importService->import();
+		$this->terminate();
 	}
 
 	public function actionImportProjects() {

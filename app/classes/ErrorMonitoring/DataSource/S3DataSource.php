@@ -23,9 +23,14 @@ class S3DataSource extends \Nette\Object implements IDataSource {
 		return $content;
 	}
 
-	public function getFileList() {
-		$filesIterator = $this->proxy->getFilesIterator();
+	public function getFileList($folder = "") {
+		$filesIterator = $this->proxy->getFilesIterator($folder);
 		return new S3FilesIterator($filesIterator);
+	}
+
+	public function moveToArchive($filePath) {
+		$targetFilePath = substr_replace($filePath, "/archive", strpos($filePath, "/"), 0);
+		$this->proxy->moveFile($filePath, $targetFilePath);
 	}
 
 }

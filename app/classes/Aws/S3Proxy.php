@@ -190,5 +190,15 @@ class S3Proxy extends \Nette\Object {
 	{
 		return $this->s3Client->getObjectUrl($this->bucket, $key, $expires);
 	}
+
+	/**
+	 *	Creates copy of an object and delete the original.
+	 * @param  string $origFilePath	  Key name of the source object
+     * @param  string $targetFilePath New file path
+	 */
+	public function moveFile($origFilePath, $targetFilePath) {
+		$this->copyFile($this->bucket . "/" . $origFilePath, $targetFilePath);
+		$this->deleteFile($origFilePath);
+	}
 }
 

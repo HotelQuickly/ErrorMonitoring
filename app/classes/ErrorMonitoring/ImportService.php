@@ -33,42 +33,37 @@ class ImportService extends \Nette\Object {
 	}
 
 	public function import() {
-		$fileList = $this->dataSource->getFileList();
+
 		$projects = $this->lstProjectEntity->fetchPairs("name", null);
 
-		foreach ($fileList as $file) {
+		foreach ($projects as $projectName => $index) {
+			$fileList = $this->dataSource->getFileList("$projectName/exception");
 
-			if (pathinfo($file->name, PATHINFO_EXTENSION) != "html") {
-				continue;
-			}
+			foreach ($fileList as $file) {
+				if (pathinfo($file->name, PATHINFO_EXTENSION) != "html") {
+					continue;
+				}
 
-			list($folder) = explode("/", $file->name);
-
-			if (!array_key_exists($folder, $projects)) {
-				$projects[$folder] = $this->lstProjectEntity->insert(array(
-					"name" => $folder,
-					"data_source" => get_class($this->dataSource),
-					"ins_process_id" => __METHOD__
+				$errorRow = $this->errorEntity->findOneBy(array(
+					"source_file" => $file->name
 				));
-			}
 
-			$errorRow = $this->errorEntity->findOneBy(array(
-				"source_file" => $file->name
-			));
+				if (!$errorRow) {
+					$errorFileContent = $this->dataSource->getFileContent($file->name);
+					$this->exceptionParser->parse($errorFileContent);
 
-			$errorFileContent = $this->dataSource->getFileContent($file->name);
-			$this->exceptionParser->parse($errorFileContent);
+					$this->errorEntity->insert(array(
+						"project_id" => $projects[$projectName]->id,
+						"title" => $this->exceptionParser->getTitle(),
+						"message" => $this->exceptionParser->getMessage(),
+						"source_file" => $this->exceptionParser->getSourceFile(),
+						"remote_file" => $file->name,
+						"error_dt" => $file->lastModified,
+						"ins_process_id" => __METHOD__
+					));
+				}
 
-			if (!$errorRow) {
-				$this->errorEntity->insert(array(
-					"project_id" => $projects[$folder]->id,
-					"title" => $this->exceptionParser->getTitle(),
-					"message" => $this->exceptionParser->getMessage(),
-					"source_file" => $this->exceptionParser->getSourceFile(),
-					"remote_file" => $file->name,
-					"error_dt" => $file->lastModified,
-					"ins_process_id" => __METHOD__
-				));
+				$this->dataSource->moveToArchive($file->name);
 			}
 		}
 	}
