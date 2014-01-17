@@ -62,7 +62,7 @@ class ErrorGrid extends Grid {
 		$this->addButton("solve", "Solve")
 			->setText("Solve")
 			->setAjax()
-			->setLink(function($row) use ($presenter){return $presenter->link("delete!", $row['id']);})
+			->setLink(function($row) use ($presenter){return $presenter->link("solve!", $row['id']);})
 			->setClass("btn-info btn-solve");
 	}
 

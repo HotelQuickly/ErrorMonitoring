@@ -30,13 +30,16 @@ class ErrorListPresenter extends BasePresenter {
 		}
 	}
 
-	public function handleDelete($id) {
-		$this->errorEntity->delete($id);
+	public function handleSolve($id) {
+		$this->errorEntity->solve($id);
 		$this->invalidateControl();
 	}
 
 	public function createComponentErrorGrid() {
-		$selection = $this->errorEntity->findAll();
+		$selection = $this->errorEntity
+			->findAll()
+			->where("solved_flag", 0);
+
 		return new \FrontendModule\Components\Grids\ErrorGrid($selection, $this->lstProjectEntity);
 	}
 }

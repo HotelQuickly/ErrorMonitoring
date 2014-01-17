@@ -1,0 +1,1 @@
+ALTER TABLE `error` ADD `solved_flag` BOOLEAN NOT NULL DEFAULT FALSE AFTER `error_dt` ;
