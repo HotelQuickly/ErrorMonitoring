@@ -72,4 +72,21 @@ class ImportService extends \Nette\Object {
 			}
 		}
 	}
+
+	public function importProjects() {
+		$fileList = $this->dataSource->getFileList();
+		$projects = $this->lstProjectEntity->fetchPairs("name", null);
+
+		foreach ($fileList as $file) {
+			list($folder) = explode("/", $file->name);
+
+			if (!array_key_exists($folder, $projects)) {
+				$projects[$folder] = $this->lstProjectEntity->insert(array(
+					"name" => $folder,
+					"data_source" => get_class($this->dataSource),
+					"ins_process_id" => __METHOD__
+				));
+			}
+		}
+	}
 }
