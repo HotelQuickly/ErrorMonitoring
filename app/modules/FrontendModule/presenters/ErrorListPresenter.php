@@ -65,6 +65,11 @@ class ErrorListPresenter extends BasePresenter {
 
 	public function createComponentErrorGrid() {
 		$selection = $this->errorEntity->findAll();
-		return new \FrontendModule\Components\Grids\ErrorGrid($selection, $this->projectEntity, $this->lstErrorStatus);
+		return new \FrontendModule\Components\Grids\ErrorGrid(
+			$selection,
+			$this->projectEntity,
+			$this->lstErrorStatus,
+			$this->errorEntity
+		);
 	}
 }

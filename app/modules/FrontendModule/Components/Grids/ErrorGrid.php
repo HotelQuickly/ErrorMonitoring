@@ -16,15 +16,20 @@ class ErrorGrid extends Grid {
 	/** @var \HQ\Model\Entity\LstErrorStatus */
 	protected $lstErrorStatus;
 
+	/** @var \HQ\Model\Entity\ErrorEntity */
+	protected $errorEntity;
+
 	public function __construct(
 		\Nette\Database\Table\Selection $selection,
 		\HQ\Model\Entity\ProjectEntity $projectEntity,
-		\HQ\Model\Entity\LstErrorStatus $lstErrorStatus
+		\HQ\Model\Entity\LstErrorStatus $lstErrorStatus,
+		\HQ\Model\Entity\ErrorEntity $errorEntity
 	) {
 		parent::__construct();
 		$this->selection = $selection;
 		$this->projectEntity = $projectEntity;
 		$this->lstErrorStatus = $lstErrorStatus;
+		$this->errorEntity = $errorEntity;
 	}
 
 	protected function configure($presenter) {
@@ -32,6 +37,7 @@ class ErrorGrid extends Grid {
 		$this->selection->select("error.id, title, message, error_dt, project_id.name AS project_name, error_status_id.status AS status");
 
 		$source = new \NiftyGrid\DataSource\NDataSource($this->selection);
+		$self = $this;
 
 		$this->setDataSource($source);
 		$this->setDefaultOrder("error_dt DESC");
@@ -88,6 +94,31 @@ class ErrorGrid extends Grid {
 			->setAjax()
 			->setLink(function($row) use ($presenter){return $presenter->link("archive!", $row['id']);})
 			->setClass("btn-info btn-solve");
+
+		$this->addAction("archive", "Archive")
+			->setAjax(true)
+			->setCallback(function($selectedItems) use ($self) {
+				$self->handleArchive($selectedItems);
+			});
+
+		$this->addAction("unarchive", "Unarchive")
+			->setAjax(true)
+			->setCallback(function($selectedItems) use ($self) {
+				$self->handleUnArchive($selectedItems);
+			});
 	}
 
+	public function handleArchive($items) {
+		foreach ($items as $id) {
+			$this->errorEntity->archive($id);
+		}
+		$this->invalidateControl();
+	}
+
+	public function handleUnArchive($items) {
+		foreach ($items as $id) {
+			$this->errorEntity->unarchive($id);
+		}
+		$this->invalidateControl();
+	}
 }

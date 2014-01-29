@@ -1,4 +1,17 @@
 $(function(){
+    $.ajaxSetup({
+        success: function(data){
+            if(data.redirect){
+                $.get(data.redirect);
+            }
+            if(data.snippets){
+                for (var snippet in data.snippets){
+                    $("#"+snippet).html(data.snippets[snippet]);
+                }
+            }
+        }
+    });
+
     $(".grid-flash-hide").live("click", function(){
         $(this).parent().parent().fadeOut(300);
     });
@@ -14,8 +27,7 @@ $(function(){
 
     $('.grid a.grid-ajax:not(.grid-confirm)').live('click', function (event) {
         event.preventDefault();
-        $.nette.ajax(this.href);
-		
+        $.get(this.href);
     });
 
     $('.grid a.grid-confirm:not(.grid-ajax)').live('click', function (event) {
@@ -27,7 +39,7 @@ $(function(){
         event.preventDefault();
         var answer = confirm($(this).data("grid-confirm"));
         if(answer){
-            $.nette.ajax(this.href);
+            $.get(this.href);
         }
     });
 
@@ -37,43 +49,19 @@ $(function(){
 
 
     $(".grid-gridForm").live("submit", function(event){
+        event.preventDefault();
         var button = $(".grid-gridForm-clickedSubmit");
-        $(button).removeClass("grid-gridForm-clickedSubmit");
-        if($(button).data("select")){
-            var selectName = $(button).data("select");
-            var option = $("select[name=\""+selectName+"\"] option:selected");
-            if($(option).data("grid-confirm")){
-                var answer = confirm($(option).data("grid-confirm"));
-                if(answer){
-                    if($(option).hasClass("grid-ajax")){
-                        event.preventDefault();
-                        $.nette.ajax({
-                            type: 'post',
-                            url: this.action,
-                            data: $(this).serialize()+"&"+$(button).attr("name")+"="+$(button).val(),
-                        }, this[0], event);
-						
-                    }
-                }else{
-                    return false;
-                }
-            }else{
-                if($(option).hasClass("grid-ajax")){
-                    event.preventDefault();
-                    $.nette.ajax({
-                        type: 'post',
-                        url: this.action,
-                        data: $(this).serialize()+"&"+$(button).attr("name")+"="+$(button).val(),
-                    }, this[0], event);
-                }
+        var selectName = $(button).data("select");
+        var selected = $("select[name=\""+selectName+"\"] option:selected").data('grid-confirm');
+        if(selected){
+            var answer = confirm(selected);
+            if(answer){
+                $.post(this.action, $(this).serialize()+"&"+$(button).attr("name")+"="+$(button).val());
+                $(button).removeClass("grid-gridForm-clickedSubmit");
             }
         }else{
-            event.preventDefault();
-            $.nette.ajax({
-                type: 'post',
-                url: this.action,
-                data: $(this).serialize()+"&"+$(button).attr("name")+"="+$(button).val(),
-            }, this[0], event);
+            $.post(this.action, $(this).serialize()+"&"+$(button).attr("name")+"="+$(button).val());
+            $(button).removeClass("grid-gridForm-clickedSubmit");
         }
     });
 
@@ -83,7 +71,7 @@ $(function(){
         var link = $(this).data("link");
         $(this).autocomplete({
             source: function(request, response) {
-                $.nette.ajax({
+                $.ajax({
                     url: link,
                     data: gridName+'-term='+request.term+'&'+gridName+'-column='+column,
                     dataType: "json",
@@ -99,7 +87,7 @@ $(function(){
     });
 
     $(".grid-changeperpage").live("change", function(){
-        $.nette.ajax($(this).data("link") + "&" +$(this).data("gridname")+"-perPage="+$(this).val());
+        $.get($(this).data("link"), $(this).data("gridname")+"-perPage="+$(this).val());
     });
 
     function hidePerPageSubmit()
@@ -108,19 +96,41 @@ $(function(){
     }
     hidePerPageSubmit();
 
+    function setDatepicker()
+    {
+        $.datepicker.regional['cs'] = {
+            closeText: 'ZavĹĂ­t',
+            prevText: '&#x3c;DĹĂ­ve',
+            nextText: 'PozdÄji&#x3e;',
+            currentText: 'NynĂ­',
+            monthNames: ['leden','Ăşnor','bĹezen','duben','kvÄten','Äerven',
+                'Äervenec','srpen','zĂĄĹĂ­','ĹĂ­jen','listopad','prosinec'],
+            monthNamesShort: ['led','Ăşno','bĹe','dub','kvÄ','Äer',
+                'Ävc','srp','zĂĄĹ','ĹĂ­j','lis','pro'],
+            dayNames: ['nedÄle', 'pondÄlĂ­', 'ĂşterĂ˝', 'stĹeda', 'Ätvrtek', 'pĂĄtek', 'sobota'],
+            dayNamesShort: ['ne', 'po', 'Ăşt', 'st', 'Ät', 'pĂĄ', 'so'],
+            dayNamesMin: ['ne','po','Ăşt','st','Ät','pĂĄ','so'],
+            weekHeader: 'TĂ˝d',
+            dateFormat: 'yy-mm-dd',
+            constrainInput: false,
+            firstDay: 1,
+            isRTL: false,
+            showMonthAfterYear: false,
+            yearSuffix: ''};
+        $.datepicker.setDefaults($.datepicker.regional['cs']);
+
+        $(".grid-datepicker").each(function(){
+            if(($(this).val() != "")){
+                var date = $.datepicker.formatDate('yy-mm-dd', new Date($(this).val()));
+            }
+            $(this).datepicker();
+            $(this).datepicker({ constrainInput: false});
+        });
+    }
+    setDatepicker();
 
     $(this).ajaxStop(function(){
+        setDatepicker();
         hidePerPageSubmit();
-    });
-
-    $("input.grid-editable").live("keypress", function(e) {
-        if (e.keyCode == '13') {
-            e.preventDefault();
-            $("input[type=submit].grid-editable").click();
-        }
-    });
-
-    $("table.grid tbody tr:not(.grid-subgrid-row) td.grid-data-cell").live("dblclick", function(e) {
-        $(this).parent().find("a.grid-editable:first").click();
     });
 });

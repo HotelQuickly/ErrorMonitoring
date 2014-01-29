@@ -11,4 +11,12 @@ class ErrorEntity extends BaseEntity {
 				"upd_process_id" => __METHOD__
 			));
 	}
+
+	public function unarchive($id) {
+		return $this->find($id)
+			->update(array(
+				"error_status_id" => 1,
+				"upd_process_id" => __METHOD__
+			));
+	}
 }
