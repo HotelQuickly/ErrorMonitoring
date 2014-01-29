@@ -1,10 +1,7 @@
 $(document).ready(function() {
-	$('body').on('click', 'a.btn-solve.grid-ajax', function(e) {
+	$('body').on('click', 'a.grid-ajax', function(e) {
 		e.preventDefault();
-		var href = $(this).attr('href');
-		$(this).closest('tr').fadeOut(function() {
-			$.get(href);
-		});
+		$.get($(this).attr('href'));
 	});
 	
 	$('body').on('click', 'a.btn-load-exceptions', function() {

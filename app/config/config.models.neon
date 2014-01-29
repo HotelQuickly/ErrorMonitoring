@@ -11,3 +11,4 @@ services:
 	- HQ\Model\Entity\ChangelogEntity
 	- HQ\Model\Entity\ErrorEntity
 	- HQ\Model\Entity\ProjectEntity
+	- HQ\Model\Entity\LstErrorStatus

@@ -4,10 +4,10 @@ namespace HQ\Model\Entity;
 
 class ErrorEntity extends BaseEntity {
 
-	public function solve($id) {
+	public function archive($id) {
 		return $this->find($id)
 			->update(array(
-				"solved_flag" => 1,
+				"error_status_id" => 2,
 				"upd_process_id" => __METHOD__
 			));
 	}

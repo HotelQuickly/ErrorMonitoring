@@ -13,18 +13,23 @@ class ErrorGrid extends Grid {
 	/** @var \HQ\Model\Entity\ProjectEntity */
 	protected $projectEntity;
 
+	/** @var \HQ\Model\Entity\LstErrorStatus */
+	protected $lstErrorStatus;
+
 	public function __construct(
 		\Nette\Database\Table\Selection $selection,
-		\HQ\Model\Entity\ProjectEntity $projectEntity
+		\HQ\Model\Entity\ProjectEntity $projectEntity,
+		\HQ\Model\Entity\LstErrorStatus $lstErrorStatus
 	) {
 		parent::__construct();
 		$this->selection = $selection;
 		$this->projectEntity = $projectEntity;
+		$this->lstErrorStatus = $lstErrorStatus;
 	}
 
 	protected function configure($presenter) {
 
-		$this->selection->select("error.id, title, message, error_dt, project_id.name AS project_name");
+		$this->selection->select("error.id, title, message, error_dt, project_id.name AS project_name, error_status_id.status AS status");
 
 		$source = new \NiftyGrid\DataSource\NDataSource($this->selection);
 
@@ -52,6 +57,25 @@ class ErrorGrid extends Grid {
 					->href($presenter->link("ErrorList:display", $row["id"]));
 			});
 
+		$this->addColumn("status", "Status")
+			->setTableName("error_status_id")
+			->setSelectFilter(
+				$this->lstErrorStatus->findAll()->fetchPairs("id", "status")
+			)
+			->setRenderer(function($row) use ($presenter) {
+				$label = "";
+
+				if ($row["status"] == "New") {
+					$label = "label-important";
+				}
+
+				return \Nette\Utils\Html::el("span")
+					->setText($row["status"])
+					->addAttributes(array(
+						"class" => "label $label"
+					));
+			});
+
 		$this->addColumn("error_dt", "Date", "150px")
 			->setDateFilter()
 			->setSortable()
@@ -59,10 +83,10 @@ class ErrorGrid extends Grid {
 				return $row["error_dt"]->format("j.n.Y H:i:s");
 			});
 
-		$this->addButton("solve", "Solve")
-			->setText("Solve")
+		$this->addButton("archive", "Archive")
+			->setText("Archive")
 			->setAjax()
-			->setLink(function($row) use ($presenter){return $presenter->link("solve!", $row['id']);})
+			->setLink(function($row) use ($presenter){return $presenter->link("archive!", $row['id']);})
 			->setClass("btn-info btn-solve");
 	}
 

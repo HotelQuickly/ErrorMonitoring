@@ -18,6 +18,12 @@ class ErrorListPresenter extends BasePresenter {
 
 	/**
 	 * @autowire
+	 * @var \HQ\Model\Entity\LstErrorStatus
+	 */
+	protected $lstErrorStatus;
+
+	/**
+	 * @autowire
 	 * @var \Nette\Caching\Cache
 	 */
 	protected $cache;
@@ -44,8 +50,8 @@ class ErrorListPresenter extends BasePresenter {
 		}
 	}
 
-	public function handleSolve($id) {
-		$this->errorEntity->solve($id);
+	public function handleArchive($id) {
+		$this->errorEntity->archive($id);
 		$this->invalidateControl();
 	}
 
@@ -58,10 +64,7 @@ class ErrorListPresenter extends BasePresenter {
 	}
 
 	public function createComponentErrorGrid() {
-		$selection = $this->errorEntity
-			->findAll()
-			->where("solved_flag", 0);
-
-		return new \FrontendModule\Components\Grids\ErrorGrid($selection, $this->projectEntity);
+		$selection = $this->errorEntity->findAll();
+		return new \FrontendModule\Components\Grids\ErrorGrid($selection, $this->projectEntity, $this->lstErrorStatus);
 	}
 }
