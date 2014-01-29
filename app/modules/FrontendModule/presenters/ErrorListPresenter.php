@@ -22,6 +22,12 @@ class ErrorListPresenter extends BasePresenter {
 	 */
 	protected $cache;
 
+	/**
+	 * @autowire
+	 * @var \HQ\ErrorMonitorinq\ImportService
+	 */
+	protected $importService;
+
 	public function actionDefault() {
 		$this->template->lastUpdate = $this->cache->load("lastUpdate", function () {
 			return null;
@@ -40,6 +46,14 @@ class ErrorListPresenter extends BasePresenter {
 
 	public function handleSolve($id) {
 		$this->errorEntity->solve($id);
+		$this->invalidateControl();
+	}
+
+	public function handleLoadExceptions() {
+		$this->importService->import();
+		$this->template->lastUpdate = $this->cache->load("lastUpdate", function () {
+			return null;
+		});
 		$this->invalidateControl();
 	}
 
