@@ -77,7 +77,6 @@ class ImportService extends \Nette\Object {
 						"error_dt" => $file->lastModified,
 						"ins_process_id" => __METHOD__
 					));
-					break;
 				}
 			}
 		}
