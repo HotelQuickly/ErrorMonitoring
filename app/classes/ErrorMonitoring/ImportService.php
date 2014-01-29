@@ -16,6 +16,9 @@ class ImportService extends \Nette\Object {
 	/** @var \HQ\Model\Entity\ErrorEntity */
 	protected $errorEntity;
 
+	/** @var \Nette\Caching\Cache */
+	protected $cache;
+
 	protected $tempDir;
 
 	public function __construct(
@@ -23,13 +26,15 @@ class ImportService extends \Nette\Object {
 		\HQ\ErrorMonitorinq\Datasource\IDataSource $dataSource,
 		\HQ\ErrorMonitoring\Nette\ExceptionParser $exceptionParser,
 		\HQ\Model\Entity\ProjectEntity $projectEntity,
-		\HQ\Model\Entity\ErrorEntity $errorEntity
+		\HQ\Model\Entity\ErrorEntity $errorEntity,
+		\Nette\Caching\Cache $cache
 	) {
 		$this->tempDir = $tempDir;
 		$this->dataSource = $dataSource;
 		$this->exceptionParser = $exceptionParser;
 		$this->projectEntity = $projectEntity;
 		$this->errorEntity = $errorEntity;
+		$this->cache = $cache;
 	}
 
 	public function import() {
@@ -65,6 +70,8 @@ class ImportService extends \Nette\Object {
 				}
 			}
 		}
+
+		$this->cache->save("lastUpdate", new \DateTime);
 	}
 
 	public function importProjects() {

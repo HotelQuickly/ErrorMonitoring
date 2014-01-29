@@ -7,6 +7,7 @@
 {block header_title}Error list{/block}
 
 {block content}
+    <p class="last-update">Last update: {if $lastUpdate}{$lastUpdate|date:'j.n.Y H:i:s'}{else}N/A{/if}</p>
     {snippet error-grid}
         {control errorGrid}
     {/snippet}

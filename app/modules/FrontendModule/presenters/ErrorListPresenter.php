@@ -16,8 +16,16 @@ class ErrorListPresenter extends BasePresenter {
 	 */
 	protected $projectEntity;
 
-	public function actionDefault() {
+	/**
+	 * @autowire
+	 * @var \Nette\Caching\Cache
+	 */
+	protected $cache;
 
+	public function actionDefault() {
+		$this->template->lastUpdate = $this->cache->load("lastUpdate", function () {
+			return null;
+		});
 	}
 
 	public function actionDisplay($id) {

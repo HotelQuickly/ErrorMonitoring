@@ -1,0 +1,9 @@
+.container {
+    position: relative;
+}
+
+p.last-update {
+    position: absolute;
+    left: 0px;
+    top: 55px;
+}
