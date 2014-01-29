@@ -1,0 +1,1 @@
+RENAME TABLE `lst_project` TO `project`

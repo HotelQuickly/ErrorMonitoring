@@ -10,16 +10,16 @@ class ErrorGrid extends Grid {
 	/** @var \Nette\Database\Table\Selection */
 	protected $selection;
 
-	/** @var \HQ\Model\Entity\LstProjectEntity */
-	protected $lstProjectEntity;
+	/** @var \HQ\Model\Entity\ProjectEntity */
+	protected $projectEntity;
 
 	public function __construct(
 		\Nette\Database\Table\Selection $selection,
-		\HQ\Model\Entity\LstProjectEntity $lstProjectEntity
+		\HQ\Model\Entity\ProjectEntity $projectEntity
 	) {
 		parent::__construct();
 		$this->selection = $selection;
-		$this->lstProjectEntity = $lstProjectEntity;
+		$this->projectEntity = $projectEntity;
 	}
 
 	protected function configure($presenter) {
@@ -35,7 +35,7 @@ class ErrorGrid extends Grid {
 			->setTableName("project_id")
 			->setSortable()
 			->setSelectFilter(
-				$this->lstProjectEntity->findAll()->fetchPairs("id", "name")
+				$this->projectEntity->findAll()->fetchPairs("id", "name")
 			);
 
 		$this->addColumn("title", "Title")

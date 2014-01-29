@@ -12,9 +12,9 @@ class ErrorListPresenter extends BasePresenter {
 
 	/**
 	 * @autowire
-	 * @var \HQ\Model\Entity\LstProjectEntity
+	 * @var \HQ\Model\Entity\ProjectEntity
 	 */
-	protected $lstProjectEntity;
+	protected $projectEntity;
 
 	public function actionDefault() {
 
@@ -40,6 +40,6 @@ class ErrorListPresenter extends BasePresenter {
 			->findAll()
 			->where("solved_flag", 0);
 
-		return new \FrontendModule\Components\Grids\ErrorGrid($selection, $this->lstProjectEntity);
+		return new \FrontendModule\Components\Grids\ErrorGrid($selection, $this->projectEntity);
 	}
 }

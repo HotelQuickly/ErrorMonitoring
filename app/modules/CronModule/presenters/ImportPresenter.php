@@ -11,6 +11,7 @@ class ImportPresenter extends \BasePresenter {
 	protected $importService;
 
 	public function actionImportFiles() {
+		set_time_limit(0);
 		$this->importService->import();
 		$this->terminate();
 	}

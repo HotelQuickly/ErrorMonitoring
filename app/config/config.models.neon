@@ -10,4 +10,4 @@ services:
 	- HQ\Model\Entity\UserEntity
 	- HQ\Model\Entity\ChangelogEntity
 	- HQ\Model\Entity\ErrorEntity
-	- HQ\Model\Entity\LstProjectEntity
+	- HQ\Model\Entity\ProjectEntity

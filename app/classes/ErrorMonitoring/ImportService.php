@@ -10,8 +10,8 @@ class ImportService extends \Nette\Object {
 	/** @var \HQ\ErrorMonitoring\Nette\ExceptionParser */
 	protected $exceptionParser;
 
-	/** @var \HQ\Model\Entity\LstProjectEntity */
-	protected $lstProjectEntity;
+	/** @var \HQ\Model\Entity\ProjectEntity */
+	protected $projectEntity;
 
 	/** @var \HQ\Model\Entity\ErrorEntity */
 	protected $errorEntity;
@@ -22,19 +22,19 @@ class ImportService extends \Nette\Object {
 		$tempDir,
 		\HQ\ErrorMonitorinq\Datasource\IDataSource $dataSource,
 		\HQ\ErrorMonitoring\Nette\ExceptionParser $exceptionParser,
-		\HQ\Model\Entity\LstProjectEntity $lstProjectEntity,
+		\HQ\Model\Entity\ProjectEntity $projectEntity,
 		\HQ\Model\Entity\ErrorEntity $errorEntity
 	) {
 		$this->tempDir = $tempDir;
 		$this->dataSource = $dataSource;
 		$this->exceptionParser = $exceptionParser;
-		$this->lstProjectEntity = $lstProjectEntity;
+		$this->projectEntity = $projectEntity;
 		$this->errorEntity = $errorEntity;
 	}
 
 	public function import() {
 
-		$projects = $this->lstProjectEntity->fetchPairs("name", null);
+		$projects = $this->projectEntity->fetchPairs("name", null);
 
 		foreach ($projects as $projectName => $index) {
 			$fileList = $this->dataSource->getFileList("$projectName/exception");
@@ -69,13 +69,13 @@ class ImportService extends \Nette\Object {
 
 	public function importProjects() {
 		$fileList = $this->dataSource->getFileList();
-		$projects = $this->lstProjectEntity->fetchPairs("name", null);
+		$projects = $this->projectEntity->fetchPairs("name", null);
 
 		foreach ($fileList as $file) {
 			list($folder) = explode("/", $file->name);
 
 			if (!array_key_exists($folder, $projects)) {
-				$projects[$folder] = $this->lstProjectEntity->insert(array(
+				$projects[$folder] = $this->projectEntity->insert(array(
 					"name" => $folder,
 					"data_source" => get_class($this->dataSource),
 					"ins_process_id" => __METHOD__
