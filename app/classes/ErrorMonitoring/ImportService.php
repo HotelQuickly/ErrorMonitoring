@@ -10,6 +10,9 @@ class ImportService extends \Nette\Object {
 	/** @var \HQ\ErrorMonitoring\Nette\ExceptionParser */
 	protected $exceptionParser;
 
+	/** @var \HQ\Model\Entity\LstErrorStatus */
+	protected $lstErrorStatus;
+
 	/** @var \HQ\Model\Entity\ProjectEntity */
 	protected $projectEntity;
 
@@ -25,6 +28,7 @@ class ImportService extends \Nette\Object {
 		$tempDir,
 		\HQ\ErrorMonitorinq\Datasource\IDataSource $dataSource,
 		\HQ\ErrorMonitoring\Nette\ExceptionParser $exceptionParser,
+		\HQ\Model\Entity\LstErrorStatus $lstErrorStatus,
 		\HQ\Model\Entity\ProjectEntity $projectEntity,
 		\HQ\Model\Entity\ErrorEntity $errorEntity,
 		\Nette\Caching\Cache $cache
@@ -32,6 +36,7 @@ class ImportService extends \Nette\Object {
 		$this->tempDir = $tempDir;
 		$this->dataSource = $dataSource;
 		$this->exceptionParser = $exceptionParser;
+		$this->lstErrorStatus = $lstErrorStatus;
 		$this->projectEntity = $projectEntity;
 		$this->errorEntity = $errorEntity;
 		$this->cache = $cache;
@@ -40,6 +45,10 @@ class ImportService extends \Nette\Object {
 	public function import() {
 
 		$projects = $this->projectEntity->fetchPairs("name", null);
+
+		$statusNewRow = $this->lstErrorStatus->findOneBy(array(
+			"status" => "New"
+		));
 
 		foreach ($projects as $projectName => $index) {
 			$fileList = $this->dataSource->getFileList("$projectName/exception");
@@ -60,6 +69,7 @@ class ImportService extends \Nette\Object {
 
 					$this->errorEntity->insert(array(
 						"project_id" => $projects[$projectName]->id,
+						"error_status_id" => $statusNewRow->id,
 						"title" => $this->exceptionParser->getTitle(),
 						"message" => $this->exceptionParser->getMessage(),
 						"source_file" => $this->exceptionParser->getSourceFile(),
@@ -67,6 +77,7 @@ class ImportService extends \Nette\Object {
 						"error_dt" => $file->lastModified,
 						"ins_process_id" => __METHOD__
 					));
+					break;
 				}
 			}
 		}
