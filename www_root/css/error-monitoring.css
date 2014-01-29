@@ -7,3 +7,9 @@ p.last-update {
     left: 0px;
     top: 55px;
 }
+
+a.btn-load-exceptions {
+    position: absolute;
+    right: 0px;
+    top: 0px;
+}
