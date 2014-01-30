@@ -4,7 +4,7 @@ $(document).ready(function() {
 		$.get($(this).attr('href'));
 	});
 	
-	$('body').on('click', 'a.btn-load-exceptions', function() {
+	$('body').on('click', 'a.btn-load-exceptions, a.btn-project-scan', function() {
 		$(this).removeClass('btn-danger');
 		$(this).addClass('btn-warning');
 		$(this).html('Updating...');

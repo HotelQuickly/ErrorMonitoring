@@ -8,8 +8,10 @@ p.last-update {
     top: 55px;
 }
 
-a.btn-load-exceptions {
-    position: absolute;
-    right: 0px;
-    top: 0px;
+a.btn-control {
+    float: right;
+    margin-left: 5px;
+    position: relative;
+    right: 0;
+    top: -55px;
 }

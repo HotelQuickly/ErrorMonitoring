@@ -63,6 +63,11 @@ class ErrorListPresenter extends BasePresenter {
 		$this->invalidateControl();
 	}
 
+	public function handleProjectScan() {
+		$this->importService->importProjects();
+		$this->invalidateControl();
+	}
+
 	public function createComponentErrorGrid() {
 		$selection = $this->errorEntity->findAll();
 		return new \FrontendModule\Components\Grids\ErrorGrid(
