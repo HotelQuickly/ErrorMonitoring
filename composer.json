@@ -21,7 +21,8 @@
 		"kdyby/autowired": "@dev",
 		"kdyby/bootstrap-form-renderer": "2.0.*",
 		"HotelQuickly/BaseLibrary": "dev-master",
-                "aws/aws-sdk-php": "2.4.*"
+		"aws/aws-sdk-php": "2.4.*",
+		"hipchat/hipchat-php": ">=1.0.0"
 	},
 	"require-dev": {
 		"nette/tester": "@dev",

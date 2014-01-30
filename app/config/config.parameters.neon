@@ -38,3 +38,7 @@ parameters:
 			secretAccessKey: hLj+RYjYc2Jk7spOBKrvygOAMlTx47Grv4TS5hBp
 			bucket: hq-error-log
 			region: 'ap-southeast-1'
+	hipchat:
+		apiKey: 671a6c869577960ae202d1ac38b8f0
+		room: ErrorMonitoring
+		sender: "Exception"

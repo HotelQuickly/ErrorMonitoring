@@ -22,6 +22,9 @@ class ImportService extends \Nette\Object {
 	/** @var \Nette\Caching\Cache */
 	protected $cache;
 
+	/** @var \HQ\HipChat\HipChatProxy */
+	protected $hipChat;
+
 	protected $tempDir;
 
 	public function __construct(
@@ -31,7 +34,8 @@ class ImportService extends \Nette\Object {
 		\HQ\Model\Entity\LstErrorStatus $lstErrorStatus,
 		\HQ\Model\Entity\ProjectEntity $projectEntity,
 		\HQ\Model\Entity\ErrorEntity $errorEntity,
-		\Nette\Caching\Cache $cache
+		\Nette\Caching\Cache $cache,
+		\HQ\HipChat\HipChatProxy $hipChat
 	) {
 		$this->tempDir = $tempDir;
 		$this->dataSource = $dataSource;
@@ -40,6 +44,7 @@ class ImportService extends \Nette\Object {
 		$this->projectEntity = $projectEntity;
 		$this->errorEntity = $errorEntity;
 		$this->cache = $cache;
+		$this->hipChat = $hipChat;
 	}
 
 	public function import() {
@@ -67,16 +72,23 @@ class ImportService extends \Nette\Object {
 					$archiveFilePath = $this->dataSource->moveToArchive($file->name);
 					$this->exceptionParser->parse($errorFileContent);
 
-					$this->errorEntity->insert(array(
+					$errorMessage = $this->exceptionParser->getMessage();
+					$title = $this->exceptionParser->getTitle();
+
+					$errorRow = $this->errorEntity->insert(array(
 						"project_id" => $projects[$projectName]->id,
 						"error_status_id" => $statusNewRow->id,
-						"title" => $this->exceptionParser->getTitle(),
+						"title" => $title,
 						"message" => $this->exceptionParser->getMessage(),
 						"source_file" => $this->exceptionParser->getSourceFile(),
 						"remote_file" => $archiveFilePath,
 						"error_dt" => $file->lastModified,
 						"ins_process_id" => __METHOD__
 					));
+
+					$link = "http://" . $_SERVER["HTTP_HOST"] . "/error-list/display/" . $errorRow->id;
+
+					$this->hipChat->sendMessage("<b>$projectName</b> - $title - $errorMessage <a href=\"$link\">Show!</a>");
 				}
 			}
 		}

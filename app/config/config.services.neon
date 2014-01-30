@@ -21,3 +21,5 @@ services:
 	s3DataSource: HQ\ErrorMonitorinq\Datasource\S3DataSource(%tempDir%, ...)
 	importService: HQ\ErrorMonitorinq\ImportService(%tempDir%, ...)
 	exceptionParser: HQ\ErrorMonitoring\Nette\ExceptionParser
+	hipchat: HipChat\HipChat(%hipchat.apiKey%)
+	hipchatProxy: HQ\HipChat\HipChatProxy(@hipchat, %hipchat.sender%, %hipchat.room%)
