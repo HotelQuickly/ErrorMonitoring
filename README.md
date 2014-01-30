@@ -24,12 +24,6 @@ All files in exception folder will be parsed and moved to archive folder.
 ```
 
 ## Cron
-### Project import
-Because AWS S3 doesn't provide any API function for listing virtual directories, this function checks all keys and extracts project names. It is not necessary to run this function regularly. 
-```
-/cron/import/import-projects
-```
-
 ### Import exception files
 This function processes all exception files located in  **project-name/exception** folder. 
 ```

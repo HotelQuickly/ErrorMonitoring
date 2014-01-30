@@ -15,10 +15,5 @@ class ImportPresenter extends \BasePresenter {
 		$this->importService->import();
 		$this->terminate();
 	}
-
-	public function actionImportProjects() {
-		set_time_limit(0);
-		$this->importService->importProjects();
-		$this->terminate();
-	}
+	
 }
