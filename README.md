@@ -3,7 +3,16 @@ ErrorMonitoring
 
 Project for monitoring all errors and exceptions files across projects
 
+## Installation
+
+1. Create folders ```log, temp, www_root/webtemp, temp/sessions``` in project root.
+2. If working on mac/linux run ```chmod 777 app/changelog && mkdir -m 777 log temp temp/cache www_root/webtemp temp/sessions```
+3. Run ```composer install```
+
 ## AWS S3 Config
+
+Place this in config.local.neon
+
 ```
 parameters:
         aws:
