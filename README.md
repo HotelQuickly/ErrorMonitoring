@@ -9,9 +9,10 @@ Project for monitoring all errors and exceptions files across projects
 
 ## Installation
 
-1. Create folders ```log, temp, www_root/webtemp, temp/sessions``` in project root. If working on mac/linux run ```chmod 777 app/changelog && mkdir -m 777 log temp temp/cache www_root/webtemp temp/sessions```
-2. Run ```composer install```
-3. Create database, and run queries in changelog/init.sql
+1. Clone this repository to your local storage
+2. Create folders ```log, temp, www_root/webtemp, temp/sessions``` in project root. If working on mac/linux run ```chmod 777 app/changelog && mkdir -m 777 log temp temp/cache www_root/webtemp temp/sessions```
+3. Run ```composer install```
+4. Create database, and run queries in changelog/init.sql
 5. Configure project in app/config/config.local.neon
 6. Visit ```localhost/changelog``` for additional database table installation
 
