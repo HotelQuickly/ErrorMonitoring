@@ -20,22 +20,11 @@
 		"JanMarek/WebLoader": "2.1.*",
 		"kdyby/autowired": "@dev",
 		"kdyby/bootstrap-form-renderer": "2.0.*",
-		"HotelQuickly/BaseLibrary": "dev-master",
 		"aws/aws-sdk-php": "2.4.*",
 		"hipchat/hipchat-php": ">=1.0.0"
 	},
 	"require-dev": {
 		"nette/tester": "@dev",
 		"janmarek/mockista": "@dev"
-	},
-	"repositories": [
-		{
-			"type": "composer",
-			"url": "http://addons2.nette.org/"
-		},
-		{
-			"type": "vcs",
-			"url":  "git@github.com:HotelQuickly/BaseLibrary.git"
-		}
-	]
+	}
 }

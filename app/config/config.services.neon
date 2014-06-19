@@ -13,10 +13,6 @@ services:
 		class: ChangelogModule\DbChangelog
 		arguments: [@database, @database::table(changelog), %appDir%]
 	errorMessageService: HQ\Api\ErrorMessageService
-	requestFactory:
-		class: HQ\Api\RequestFactory(%apiTargetHosts%)
-		setup:
-			- setApplicationCode(%applicationCode%)
 	s3Proxy: HQ\Aws\S3Proxy(%aws%)
 	s3DataSource: HQ\ErrorMonitorinq\Datasource\S3DataSource(%tempDir%, ...)
 	importService: HQ\ErrorMonitorinq\ImportService(%tempDir%, ...)

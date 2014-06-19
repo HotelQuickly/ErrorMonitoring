@@ -1,13 +1,16 @@
 parameters:
 	apiTargetHosts:
-		ihub: http://ihub
 	database:
 		default:
-			dsn: 'mysql:host=localhost;dbname=hqjim'
-			user: hqdev
-			password: tDXAFW9nazpxJe5y
-		replica:
-			dsn: 'mysql:host=localhost;dbname=hqjim'
-			user: hqread
-			password: tDXAFW9nazpxJe5y
+			dsn: 'mysql:host=localhost;dbname=hq_error_monitoring'
+			user: root
+			password: kopretina1
 
+	aws:
+		s3:
+			accessKeyId:
+			secretAccessKey:
+			bucket:
+			region: 'ap-southeast-1'
+	hipchat:
+		apiKey:
