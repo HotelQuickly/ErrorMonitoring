@@ -40,3 +40,5 @@ tests/config.tests.neon
 tests/changelog.log
 
 tests/changelog.log
+
+.idea
