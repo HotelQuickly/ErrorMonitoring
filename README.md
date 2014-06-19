@@ -3,6 +3,10 @@ ErrorMonitoring
 
 Project for monitoring all errors and exceptions files across projects
 
+## Requirements
+* PHP >= 5.3
+* MySQL >= 5.6
+
 ## Installation
 
 1. Create folders ```log, temp, www_root/webtemp, temp/sessions``` in project root. If working on mac/linux run ```chmod 777 app/changelog && mkdir -m 777 log temp temp/cache www_root/webtemp temp/sessions```
