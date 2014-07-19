@@ -881,16 +881,18 @@ abstract class Grid extends \Nette\Application\UI\Control
 		$paginators = array();
 		foreach($values as $gridName => $grid){
 			$isSubGrid = ($gridName == $this->name) ? FALSE : TRUE;
-			foreach($grid['filter'] as $name => $value){
-				if($value != ''){
-					if($name == "send"){
-						continue;
-					}
-					if($isSubGrid){
-						$gridName = $this->findSubGridPath($gridName);
-						$filters[$this->name."-".$gridName."-filter"][$name] = $value;
-					}else{
-						$filters[$this->name."-filter"][$name] = $value;
+			if (is_array($grid)) {
+				foreach($grid['filter'] as $name => $value){
+					if($value != ''){
+						if($name == "send"){
+							continue;
+						}
+						if($isSubGrid){
+							$gridName = $this->findSubGridPath($gridName);
+							$filters[$this->name."-".$gridName."-filter"][$name] = $value;
+						}else{
+							$filters[$this->name."-filter"][$name] = $value;
+						}
 					}
 				}
 			}

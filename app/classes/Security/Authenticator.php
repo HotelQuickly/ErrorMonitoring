@@ -46,7 +46,6 @@ class Authenticator extends Nette\Object implements NS\IAuthenticator
 			throw new NS\AuthenticationException("Wrong password or email.", self::INVALID_CREDENTIAL);
 		}
 
-		unset($row->pass);
 		return new NS\Identity($row->id, null, $row->toArray());
 	}
 

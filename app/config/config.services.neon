@@ -1,7 +1,4 @@
 services:
-	connectionPool: HQ\ConnectionPool(%productionMode%, %database%, Nette\Database\Reflection\DiscoveredReflection(), Nette\Caching\Storages\FileStorage(%appDir%/../temp/cache/))
-	database: @connectionPool::getConnection()
-	databaseReplica: @connectionPool::getConnection("replica")
 	routerFactory: HQ\RouterFactory(%secureRoutes%)
 	router: @routerFactory::createRouter
 	authenticator: Authenticator
@@ -11,7 +8,7 @@ services:
 	logger: HQ\Logger
 	dbChangelog:
 		class: ChangelogModule\DbChangelog
-		arguments: [@database, @database::table(changelog), %appDir%]
+		arguments: [@nette.database.default, @nette.database.default::table(changelog), %appDir%]
 	errorMessageService: HQ\Api\ErrorMessageService
 	s3Proxy: HQ\Aws\S3Proxy(%aws%)
 	s3DataSource: HQ\ErrorMonitorinq\Datasource\S3DataSource(%tempDir%, ...)

@@ -13,7 +13,7 @@ use Nette\Utils\Finder;
  */
 class DbChangelog extends \Nette\Object {
 
-	/** @var \Nette\Database\Connection */
+	/** @var \Nette\Database\Context */
 	private $connection;
 
 	/** @var \Nette\Database\Table\Selection */
@@ -24,7 +24,7 @@ class DbChangelog extends \Nette\Object {
 	/** @string */
 	private $changelogPath;
 
-	public function __construct(\Nette\Database\Connection $connection, \Nette\Database\Table\Selection $changelogTable, $appDir)
+	public function __construct(\Nette\Database\Context $connection, \Nette\Database\Table\Selection $changelogTable, $appDir)
 	{
 		$this->connection = $connection;
 		$this->changelogTable = $changelogTable;

@@ -81,7 +81,7 @@ abstract class BasePresenter extends Nette\Application\UI\Presenter {
 	public function beforeRender()
 	{
 		parent::beforeRender();
-		$this->template->gaCode = $this->context->params['gaCode'];
+		$this->template->gaCode = $this->context->parameters['gaCode'];
 	}
 
 	public function shutdown($response)
@@ -102,16 +102,16 @@ abstract class BasePresenter extends Nette\Application\UI\Presenter {
 
 	protected function createComponentJs()
 	{
-		$files = new WebLoader\FileCollection($this->context->params['wwwDir'] . '/js');
-		$compiler = WebLoader\Compiler::createJsCompiler($files, $this->context->params['wwwDir'] . '/webtemp');
+		$files = new WebLoader\FileCollection($this->context->parameters['wwwDir'] . '/js');
+		$compiler = WebLoader\Compiler::createJsCompiler($files, $this->context->parameters['wwwDir'] . '/webtemp');
 		return new WebLoader\Nette\JavaScriptLoader($compiler, '/webtemp');
 	}
 
 
 	protected function createComponentCss()
 	{
-		$files = new WebLoader\FileCollection($this->context->params['wwwDir'] . '/css');
-		$compiler = WebLoader\Compiler::createCssCompiler($files, $this->context->params['wwwDir'] . '/webtemp');
+		$files = new WebLoader\FileCollection($this->context->parameters['wwwDir'] . '/css');
+		$compiler = WebLoader\Compiler::createCssCompiler($files, $this->context->parameters['wwwDir'] . '/webtemp');
 		return $control = new WebLoader\Nette\CssLoader($compiler, '/webtemp');
 	}
 

@@ -3,8 +3,6 @@
 namespace HQ\Model\Entity;
 
 use Nette,
-	Nette\Caching\Cache,
-	Nette\Database\Connection,
 	Nette\Database\Table\ActiveRow;
 
 class BaseEntity extends \Nette\Object
@@ -15,21 +13,14 @@ class BaseEntity extends \Nette\Object
 	/** @var string */
 	protected $tableName;
 
-	/** @var Nette\Database\Connection */
-	private $primaryDatabase;
-
-	/** @var string */
-	private $connectionName = "default";
-
-	/** @var HotelQuickly\ConnectionPool */
-	private $connectionPool;
-
+	/** @var Nette\Database\Context */
+	private $database;
 
 	public function __construct(
-		\HQ\ConnectionPool $connectionPool,
+		Nette\Database\Context $database,
 		$tableName = null
 	) {
-		$this->connectionPool = $connectionPool;
+		$this->database = $database;
 
 		if (!$this->tableName) {
 			$this->tableName = ($tableName ?: $this->getTableNameFromClassName());
@@ -44,34 +35,9 @@ class BaseEntity extends \Nette\Object
 	}
 
 
-	final public function getDatabase()
-	{
-		return $this->getConnection();
-	}
-
-
-	final public function getDatabaseReplica()
-	{
-		return $this->getConnection("replica");
-	}
-
-
-	final public function getConnection($name = null)
-	{
-		return $this->connectionPool->getConnection($name ?: $this->connectionName);
-	}
-
-
-	final public function setConnectionName($name)
-	{
-		$this->connectionName = $name;
-		return $this;
-	}
-
-
 	public function getTable()
 	{
-		return $this->getDatabase()->table($this->tableName);
+		return $this->database->table($this->tableName);
 	}
 
 
@@ -88,12 +54,6 @@ class BaseEntity extends \Nette\Object
 		}
 
 		return true;
-	}
-
-
-	public function getTableReplica()
-	{
-		return new HQ\Database\Table\Selection($this->tableName, $this->getConnection("replica"));
 	}
 
 

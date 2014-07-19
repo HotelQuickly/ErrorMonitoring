@@ -2,10 +2,9 @@
 
 namespace HQ\Template;
 
-use Nette,
-	Nette\Templating as NT;
+use Nette;
 
-class FileTemplate extends NT\FileTemplate {
+class FileTemplate extends Nette\Templating\FileTemplate {
 
 
 }

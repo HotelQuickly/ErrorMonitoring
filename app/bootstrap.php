@@ -25,7 +25,7 @@ if (function_exists('isDebugMode') AND isDebugMode($debugArray) == true) {
 	Debugger::enable();
 }
 // Configure application
-$configurator = new Nette\Config\Configurator;
+$configurator = new \Nette\Configurator();
 if (function_exists('isDebugMode') AND isDebugMode($debugArray) == true) {
 	$configurator->setProductionMode(false);
 }
@@ -42,19 +42,13 @@ $configurator->createRobotLoader()
 $configurator->addConfig(__DIR__ . '/config/config.neon', false);
 $configurator->addConfig(__DIR__ . '/config/config.local.neon', false);
 
-Kdyby\BootstrapFormRenderer\DI\RendererExtension::register($configurator);
-
-$configurator->onCompile[] = function ($configurator, $compiler) {
-    $compiler->addExtension('controlFactory', new \HotelQuickly\Factory\ControlFactoryExtension);
-};
-
 $container = $configurator->createContainer();
 
-if ($configurator->isProductionMode()) {
+if ($configurator->isDebugMode()) {
+	define('ENVIRONMENT', 'DEVELOPMENT');
+} else {
 	define('ENVIRONMENT', 'PRODUCTION');
 	$container->application->catchExceptions = true;
-} else {
-	define('ENVIRONMENT', 'DEVELOPMENT');
 }
 
 // Configure and run the application!
