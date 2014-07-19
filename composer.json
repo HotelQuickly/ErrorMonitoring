@@ -24,7 +24,7 @@
 		"hipchat/hipchat-php": ">=1.0.0"
 	},
 	"require-dev": {
-		"nette/tester": "@dev",
+		"nette/tester": ">= 1.2.0",
 		"janmarek/mockista": "@dev"
 	}
 }

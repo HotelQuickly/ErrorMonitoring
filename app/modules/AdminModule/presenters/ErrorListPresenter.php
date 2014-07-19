@@ -1,6 +1,6 @@
 <?php
 
-namespace FrontendModule;
+namespace AdminModule;
 
 class ErrorListPresenter extends BasePresenter {
 

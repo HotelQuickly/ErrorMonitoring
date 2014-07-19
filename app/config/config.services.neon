@@ -19,3 +19,4 @@ services:
 	exceptionParser: HQ\ErrorMonitoring\Nette\ExceptionParser
 	hipchat: HipChat\HipChat(%hipchat.apiKey%)
 	hipchatProxy: HQ\HipChat\HipChatProxy(@hipchat, %hipchat.sender%, %hipchat.room%)
+	passwordService: HQ\Security\PasswordService

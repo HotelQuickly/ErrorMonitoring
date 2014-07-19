@@ -1,0 +1,2 @@
+INSERT INTO `lst_lang` (`id`, `code`, `name`, `description`, `iso_6391_code`, `iso_6392_code`, `auto_translate_flag`, `active_flag`, `flag_url`, `order`, `ins_dt`, `ins_process_id`, `upd_dt`, `upd_process_id`, `del_flag`)
+VALUES ('-1', NULL, NULL, NULL, NULL, NULL, '1', '0', NULL, '0', now(), 'nevoral', now(), NULL, '0');

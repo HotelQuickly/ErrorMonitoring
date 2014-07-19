@@ -58,12 +58,17 @@ class RouterFactory
 			$apiRouter[] = new Route('api/<apiVersion>/<presenter>[/<action>]', 'Homepage:default');
 			$router[] = $apiRouter;
 
+			$adminRouter = new RouteList('Admin');
+			$adminRouter[] = new Route('admin/<presenter>/<action>[/<id>]', 'Homepage:default');
+			$router[] = $adminRouter;
+
 			// Frontend Router
 			$frontendRouter = new RouteList('Frontend');
 			$frontendRouter[] = new Route('healthy-check', 'HealthyCheck:default');
 			$frontendRouter[] = new Route('[<lang=en [a-z]{2}>/]', 'Homepage:default');
 			$frontendRouter[] = new Route('<presenter>/<action>[/<id>]', 'Homepage:default');
 			$router[] = $frontendRouter;
+
 
 			// Other routes
 			$router[] = new Route('login/', 'Login:default', $secureRoutes);

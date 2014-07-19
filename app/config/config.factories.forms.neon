@@ -1,2 +1,3 @@
 services:
-	baseFormFactory: HotelQuickly\Factory\Form\BaseFormFactory
+	baseFormFactory: HQ\Factory\Form\BaseFormFactory
+	loginFormFactory: HQ\Factory\Form\LoginFormFactory

@@ -15,8 +15,15 @@ class Authenticator extends Nette\Object implements NS\IAuthenticator
 	/** @var Entity\UserEntity */
 	private $userEntity;
 
-	public function __construct(Entity\UserEntity $userEntity) {
+	/** @var \HQ\Security\PasswordService */
+	private $passwordService;
+
+	public function __construct(
+		Entity\UserEntity $userEntity,
+		\HQ\Security\PasswordService $passwordService
+	) {
 		$this->userEntity = $userEntity;
+		$this->passwordService = $passwordService;
 	}
 
 	/**
@@ -25,38 +32,22 @@ class Authenticator extends Nette\Object implements NS\IAuthenticator
 	 * @return Nette\Security\Identity
 	 * @throws Nette\Security\AuthenticationException
 	 */
-	public function authenticate(array $credentials, $facebookLogin = false, $mobileLogin = false)
+	public function authenticate(array $credentials)
 	{
-		if ($mobileLogin == true) {
-            list($secretKey) = $credentials;
+		list($username, $password) = $credentials;
 
-        	$row = $this->userEntity->getTable()->where('app_secret_key', $secretKey)->fetch();
+		$row = $this->userEntity->findOneBy(array('email' => $username));
 
-			if (!$row) {
-				throw new NS\AuthenticationException("User with app secret key '$secretKey' not found (Mobile app Login).", self::IDENTITY_NOT_FOUND);
-			}
-			return new NS\Identity($row->id, $row->user_role->name, $row->toArray());
-		} else if ($facebookLogin == true) {
-            list($fbUid) = $credentials;
-
-        	$row = $this->userEntity->where('fb_uid', $fbUid)->fetch();
-
-			if (!$row) {
-				throw new NS\AuthenticationException("User with ID '$fbUid' not found (Facebook Login).", self::IDENTITY_NOT_FOUND);
-			}
-			return new NS\Identity($row->id, $row->user_role->name, $row->toArray());
-		} else {
-            list($username, $password) = $credentials;
-
-        	$row = $this->userEntity->where('email', $username)->select('user.*, user_role.name AS user_role_name')->fetch();
-
-			if (!$row) {
-				throw new NS\AuthenticationException("User '$username' not found.", self::IDENTITY_NOT_FOUND);
-			}
-
-			unset($row->pass);
-			return new NS\Identity($row->id, $row->user_role->name, $row->toArray());
+		if (!$row) {
+			throw new NS\AuthenticationException("User '$username' not found.", self::IDENTITY_NOT_FOUND);
 		}
+
+		if ($row->password != $this->passwordService->hash($password)) {
+			throw new NS\AuthenticationException("Wrong password or email.", self::INVALID_CREDENTIAL);
+		}
+
+		unset($row->pass);
+		return new NS\Identity($row->id, null, $row->toArray());
 	}
 
 }

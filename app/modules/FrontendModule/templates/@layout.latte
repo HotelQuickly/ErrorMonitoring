@@ -22,17 +22,16 @@
 
     </head>
     <body>
-        <header class="container">
-            <div class="navbar navbar-inverse">
-                <div class="navbar-inner">
-                    <a class="brand" href="#">Error Monitoring</a>
-                    <ul class="nav">
-                        <li n:class="$presenter->isLinkCurrent('Homepage:*') ? active"><a href="{link Homepage:default}">Dashboard</a></li>
-                        <li n:class="$presenter->isLinkCurrent('ErrorList:*') ? active"><a href="{link ErrorList:default}">Error list</a></li>
-                    </ul>
-                </div>
-            </div>
-        </header>
+
+		<header class="container">
+			{block header}
+				<div class="navbar navbar-inverse">
+					<div class="navbar-inner">
+						<a class="brand" href="#">Error Monitoring</a>
+					</div>
+				</div>
+        	{/block}
+		</header>
         <div id="wrapper">
             <div class="container">
                 <div class="row">

@@ -1,6 +1,6 @@
 <?php
 
-namespace HotelQuickly\Factory\Form;
+namespace HQ\Factory\Form;
 
 use Nette,
 	Kdyby,
