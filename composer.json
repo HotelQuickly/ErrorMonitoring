@@ -20,7 +20,8 @@
 		"JanMarek/WebLoader": "~2.2.0",
 		"kdyby/autowired": "@dev",
 		"aws/aws-sdk-php": "2.4.*",
-		"hipchat/hipchat-php": ">=1.0.0"
+		"hipchat/hipchat-php": ">=1.0.0",
+		"hotel-quickly/error-collector": ">= 1.0.1"
 	},
 	"require-dev": {
 		"nette/tester": ">= 1.2.0",

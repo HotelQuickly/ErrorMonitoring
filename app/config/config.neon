@@ -12,6 +12,16 @@ services:
 	cache:
 		class: Nette\Caching\Cache(@cacheStorage)
 
+extensions:
+	errorCollector: \HQ\ErrorCollector\ErrorCollectorExtension
+
+errorCollector:
+	projectName: exceptions.hotelquickly.com
+	s3:
+		accessKeyId:
+		secretAccessKey:
+		region: 'ap-southeast-1'
+
 includes:
 	- config.parameters.neon
 	- config.models.neon
