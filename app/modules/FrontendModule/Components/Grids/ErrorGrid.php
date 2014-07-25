@@ -81,6 +81,9 @@ class ErrorGrid extends Grid {
 						"class" => "label $label"
 					));
 			});
+		if (!isset($this->filter['status'])) {
+			$this->filter['status'] = '1';
+		}
 
 		$this->addColumn("error_dt", "Date", "150px")
 			->setDateFilter()
