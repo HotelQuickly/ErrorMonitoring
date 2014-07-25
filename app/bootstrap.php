@@ -27,10 +27,8 @@ if (function_exists('isDebugMode') AND isDebugMode($debugArray) == true) {
 // Configure application
 $configurator = new \Nette\Configurator();
 if (function_exists('isDebugMode') AND isDebugMode($debugArray) == true) {
-	$configurator->setProductionMode(false);
+	$configurator->setDebugMode(true);
 }
-
-//$configurator->setProductionMode(true);
 
 // Enable RobotLoader - this will load all classes automatically
 $configurator->setTempDirectory(__DIR__ . '/../temp');
