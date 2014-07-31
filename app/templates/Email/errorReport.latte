@@ -1,0 +1,4 @@
+<h2>New Exceptions</h2>
+{foreach $errors as $error}
+	{$error->error_dt|date:"Y-m-d H:i:s"} - <a n:href="//:Admin:ErrorList:display $error->id">{$error->message}</a><br>
+{/foreach}

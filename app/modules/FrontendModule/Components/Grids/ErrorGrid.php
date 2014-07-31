@@ -96,8 +96,15 @@ class ErrorGrid extends Grid {
 			->setText("Archive")
 			->setAjax()
 			->setLink(function($row) use ($presenter){return $presenter->link("archive!", $row['id']);})
-			->setClass("btn-info btn-solve");
+			->setClass("btn-success btn-solve");
 
+		/*
+		$this->addButton("createTask", "Create Task")
+			->setText('Create task')
+			->setAjax()
+			->setLink(function($row) use ($presenter){return $presenter->link("createTask!", $row['id']);})
+			->setClass("btn-info");
+*/
 		$this->addAction("archive", "Archive")
 			->setAjax(true)
 			->setCallback(function($selectedItems) use ($self) {
@@ -115,13 +122,18 @@ class ErrorGrid extends Grid {
 		foreach ($items as $id) {
 			$this->errorEntity->archive($id);
 		}
-		$this->invalidateControl();
+		$this->redrawControl();
 	}
 
 	public function handleUnArchive($items) {
 		foreach ($items as $id) {
 			$this->errorEntity->unarchive($id);
 		}
-		$this->invalidateControl();
+		$this->redrawControl();
+	}
+
+	public function handleCreateTask($id)
+	{
+
 	}
 }

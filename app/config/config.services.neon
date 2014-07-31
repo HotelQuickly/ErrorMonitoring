@@ -1,8 +1,8 @@
 services:
 	routerFactory: HQ\RouterFactory(%secureRoutes%)
 	router: @routerFactory::createRouter
+	logCron: HQ\LogCron(%productionMode%, ... )
 	authenticator: Authenticator
-	logCron: HQ\LogCron(%cron%, %productionMode%, ... )
 	exceptionService: HQ\ExceptionService(%appDir%, ...)
 	translator: HQ\DbTranslator(Nette\Caching\Cache(@cacheStorage), ...)
 	logger: HQ\Logger
@@ -15,5 +15,8 @@ services:
 	importService: HQ\ErrorMonitorinq\ImportService(%tempDir%, ...)
 	exceptionParser: HQ\ErrorMonitoring\Nette\ExceptionParser
 	hipchat: HipChat\HipChat(%hipchat.apiKey%)
-	hipchatProxy: HQ\HipChat\HipChatProxy(@hipchat, %hipchat.sender%, %hipchat.room%)
+	hipchatProxy: HQ\HipChat\HipChatProxy(%hipchat.active%, %hipchat.sender%, %hipchat.room%, ...)
 	passwordService: HQ\Security\PasswordService
+	- \HQ\Mail\IMailMessageFactory
+	- \HQ\Mail\SmtpMailer(%productionMode%, %emailReporter.sendEmailInDevelopment%)
+	- \HQ\Reporting\EmailReporter(%emailReporter.active%, %emailReporter.headers%, ...)

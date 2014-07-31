@@ -8,7 +8,8 @@ namespace CronModule;
  */
 class BasePresenter extends \BasePresenter
 {
-	/** @autowire @var \HQ\LogCron  */
+	/** @autowire
+	 * @var \HQ\LogCron  */
 	protected $logCron;
 
 	/** @autowire @var \HQ\Model\Entity\LogCronEntity */
@@ -36,7 +37,7 @@ class BasePresenter extends \BasePresenter
 		if ($this->cronRow
 			&& isset($this->cronRow->running_flag)
 			&& $this->cronRow->running_flag == 1
-			&& $this->context->params['productionMode'] // in development always run the cron
+			&& $this->context->parameters['productionMode'] // in development always run the cron
 		) {
 			$now = new \DateTime;
 			$diff = $now->diff($this->cronRow->upd_dt);

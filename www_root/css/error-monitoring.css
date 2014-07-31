@@ -3,9 +3,7 @@
 }
 
 p.last-update {
-    position: absolute;
-    left: 0px;
-    top: 55px;
+    margin-top: 10px;
 }
 
 a.btn-control {

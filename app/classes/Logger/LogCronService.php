@@ -4,11 +4,8 @@ namespace HQ;
 
 class LogCron extends \Nette\Object {
 
-	private $filesDir;
 	private $httpRequest;
-	private $reportRecipients;
 	private $logger;
-	private $parameters;
 
 	public $productionMode;
 
@@ -36,7 +33,6 @@ class LogCron extends \Nette\Object {
 	private $logErrorLogCronRelEntity;
 
 	public function __construct(
-		array $parameters,
 		$productionMode,
 		\HQ\Model\Entity\LogCronEntity $logCronEntity,
 		\HQ\Model\Entity\CronEntity $cronEntity,
@@ -45,9 +41,6 @@ class LogCron extends \Nette\Object {
 		\Nette\Http\Request $httpRequest
 	) {
 		$this->logger = $logger;
-		$this->filesDir = $parameters["filesDir"];
-		$this->reportRecipients = $parameters["reportRecipients"];
-		$this->parameters = $parameters;
 		$this->productionMode = $productionMode;
 		$this->httpRequest = $httpRequest;
 		$this->logCronEntity = $logCronEntity;
@@ -66,94 +59,9 @@ class LogCron extends \Nette\Object {
 		return $this->cronRow;
 	}
 
-	/**
-	 * Returns parameters array fetched from config.neon
-	 * @return array
-	 */
-	public function getParameters(){
-		return $this->parameters;
-	}
-
-	/**
-	 * Returns exact parameter of parameters array fetched from config.neon
-	 * @param string $name
-	 * @return mixed
-	 */
-	public function getParameter($name){
-		return $this->parameters[$name];
-	}
-
-	/**
-	 * Returns Daily cron report recipients array fetched from config.neon
-	 * @return array
-	 */
-	public function getReportRecipients(){
-		return $this->getParameter("reportRecipients");
-	}
-
 	public function getTaskNameByUrl($url){
 		$urlObj = new \Nette\Http\Url( $url );
 		return $urlObj->getBasePath() . $urlObj->getRelativeUrl();
-	}
-
-	public function parseFile(){
-		$parsedFile = array();
-		foreach (\Nette\Utils\Finder::findFiles('*')->in($this->filesDir) as $cronFileName => $fileSplInfo) {
-			$lines = file($cronFileName);
-			foreach($lines as $number => $line){
-				$filePositionStart = (strpos($line, "http"))? strpos($line, "http") : false;
-				if( strlen($line) < 10 || !$filePositionStart || strpos($line, "#") === 0 || (strpos($line, "#") !== false && strpos($line, "#") < $filePositionStart) ){
-					continue;
-				}
-				$filePositionEnd = (strpos($line, " ", $filePositionStart))? strpos($line, " ", $filePositionStart) : strlen($line);
-				$fileNameLength = $filePositionEnd - $filePositionStart;
-				$filename = substr($line, $filePositionStart, $fileNameLength);
-				$timePositionEnd = strpos($line, "root") -1;
-				$time = substr($line, 0, $timePositionEnd);
-				$parsedFile[$this->getTaskNameByUrl($filename)] = $time;
-			}
-		}
-		return $parsedFile;
-	}
-
-	/**
-	 * Finds last run of daily cron report task and returns the datetime object
-	 * @return \DateTime
-	 */
-	public function getLastReportTime(){
-		$dailyReport = $this->getTaskByUrl(self::DAILY_CRON_REPORT_TASKNAME);
-		$dateCheck = new \DateTime;
-		$dateCheck->add( \DateInterval::createFromDateString('-1 minute'));
-		$row = $this->logCronEntity->getTable()
-			->where("cron_id", $dailyReport->id)
-			->where("ins_dt < ?", $dateCheck)
-			->where("id != ?", $this->logCronRow->id)
-			->where("del_flag", 0)
-			->where("successful_flag", 1)
-			->limit(1)
-			->order("id DESC")
-			->fetch();
-		return ($row)? $row->ins_dt : new \DateTime;
-	}
-
-	/**
-	 * Finds last run of check important crons task and returns the datetime object
-	 * @return \DateTime
-	 */
-	public function getLastImportantCronsCheckTime(){
-		$cronCheck = $this->getTaskByUrl(self::IMPORTANT_CRON_CHECK_TASKNAME);
-		$dateCheck = new \DateTime;
-		$dateCheck->add( \DateInterval::createFromDateString('-1 minute'));
-		$row = $this->logCronEntity->getTable()
-			->where("cron_id", $cronCheck->id)
-			->where("del_flag", 0)
-			->where("ins_dt < ?", $dateCheck)
-			->where("successful_flag", 1)
-			->where("id != ?", $this->logCronRow->id)
-			->limit(1)
-			->order("id DESC")
-			->fetch();
-		return ($row)? $row->ins_dt : new \DateTime;
 	}
 
 	/**
@@ -401,7 +309,7 @@ class LogCron extends \Nette\Object {
 
 	/**
 	 * Saves cron log and terminates presenter
-	 * @throws Nette\Application\AbortException
+	 * @throws \Nette\Application\AbortException
 	 */
 	public function finishTask()
 	{

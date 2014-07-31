@@ -8,9 +8,11 @@
 
 {block content}
     {snippet error-grid}
-        <p class="last-update">Last update: {if $lastUpdate}{$lastUpdate|date:'j.n.Y H:i:s'}{else}N/A{/if}</p>
+    	<span class="last-update pull-right">Last update: {if $lastUpdate}{$lastUpdate|date:'j.n.Y H:i:s'}{else}N/A{/if}</span>
+    	<br/>
         <a n:href="loadExceptions!" class="ajax btn btn-danger btn-load-exceptions btn-control">Load exceptions</a>
         <a n:href="projectScan!" class="ajax btn btn-project-scan btn-control">Scan for projects</a>
+
         {control errorGrid}
     {/snippet}
 {/block}

@@ -14,13 +14,13 @@ class BaseEntity extends \Nette\Object
 	protected $tableName;
 
 	/** @var Nette\Database\Context */
-	private $database;
+	private $context;
 
 	public function __construct(
-		Nette\Database\Context $database,
+		Nette\Database\Context $context,
 		$tableName = null
 	) {
-		$this->database = $database;
+		$this->context = $context;
 
 		if (!$this->tableName) {
 			$this->tableName = ($tableName ?: $this->getTableNameFromClassName());
@@ -34,10 +34,15 @@ class BaseEntity extends \Nette\Object
 		return $this;
 	}
 
+	public function getContext()
+	{
+		return $this->context;
+	}
+
 
 	public function getTable()
 	{
-		return $this->database->table($this->tableName);
+		return $this->context->table($this->tableName);
 	}
 
 
@@ -50,7 +55,7 @@ class BaseEntity extends \Nette\Object
 				continue;
 			}
 
-			$this->database->prepare($queryArrayItem)->execute();
+			$this->context->prepare($queryArrayItem)->execute();
 		}
 
 		return true;
@@ -170,7 +175,7 @@ class BaseEntity extends \Nette\Object
 	 */
 	public function insertOrUpdate(array $values)
 	{
-		$this->getDatabase()->query("INSERT INTO `$this->tableName` ? ON DUPLICATE KEY UPDATE ?", $values, $values);
+		$this->getContext()->query("INSERT INTO `$this->tableName` ? ON DUPLICATE KEY UPDATE ?", $values, $values);
 	}
 
 

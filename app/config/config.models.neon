@@ -12,3 +12,5 @@ services:
 	- HQ\Model\Entity\ErrorEntity
 	- HQ\Model\Entity\ProjectEntity
 	- HQ\Model\Entity\LstErrorStatus
+	- HQ\Model\Entity\ErrorReportingServiceRelEntity
+	- HQ\Model\Entity\LstReportingServiceEntity
