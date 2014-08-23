@@ -18,7 +18,7 @@ parameters:
 		sendEmailInDevelopment: false
 		headers:
 			from: exceptions@hotelquickly.com
-			to: it.support@hotelquickly.com
+			to: exceptions@hotelquickly.pagerduty.com
 			subject: New exceptions
 
 	hipchat:
