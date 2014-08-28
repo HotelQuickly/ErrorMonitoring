@@ -19,17 +19,22 @@ class ExceptionParser extends \Nette\Object {
 
 		@$this->domDocument->loadHTML($html);
 
-		$this->title = $this->domDocument
+		$titleItem = $this->domDocument
 			->getElementsByTagName("title")
-			->item(0)
-			->textContent;
+			->item(0);
+
+		$this->title = $titleItem ? $titleItem->textContent : 'N/A';
 
 		$messageNode = $this->domDocument
 			->getElementsByTagName("p")
 			->item(0);
 
-		$messageNode->removeChild($messageNode->lastChild);
-		$this->message = trim($messageNode->textContent);
+		if($messageNode) {
+			$messageNode->removeChild($messageNode->lastChild);
+			$this->message = trim($messageNode->textContent);
+		} else {
+			$this->message = 'N/A';
+		}
 
 		$sourceFileElement = $this->domDocument->getElementById("netteBsPnl1");
 		$sourceFileLinkNode = $sourceFileElement->getElementsByTagName("a")->item(0);
