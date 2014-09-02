@@ -14,16 +14,23 @@ class S3DataSource extends \Nette\Object implements IDataSource {
 		$this->proxy = $proxy;
     }
 
-	public function getFileContent($filePath) {
+	public function getFileContent($filePath)
+	{
 		$fileName = uniqid() . ".tmp";
 		$targetPath = $this->tempDir . "/" . $fileName;
-		$this->proxy->downloadFile($filePath, $targetPath);
-		$content = file_get_contents($targetPath);
+
+		try {
+			$this->proxy->downloadFile($filePath, $targetPath);
+			$content = file_get_contents($targetPath);
+		} catch (\Aws\S3\Exception\NoSuchKeyException $e) {
+			$content = '';
+		};
 		unlink($targetPath);
 		return $content;
 	}
 
-	public function getFileList($folder = "") {
+	public function getFileList($folder = "")
+	{
 		$filesIterator = $this->proxy->getFilesIterator($folder);
 		return new S3FilesIterator($filesIterator);
 	}
