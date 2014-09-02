@@ -2,6 +2,8 @@
 
 namespace HQ\ErrorMonitorinq;
 
+use Nette\InvalidArgumentException;
+
 class ImportService extends \Nette\Object {
 
 	/** @var \HQ\ErrorMonitorinq\Datasource\IDataSource */
@@ -68,27 +70,32 @@ class ImportService extends \Nette\Object {
 				));
 
 				if (!$errorRow) {
-					$errorFileContent = $this->dataSource->getFileContent($file->name);
-					$archiveFilePath = $this->dataSource->moveToArchive($file->name);
-					$this->exceptionParser->parse($errorFileContent);
+					try {
+						$errorFileContent = $this->dataSource->getFileContent($file->name);
+						$archiveFilePath = $this->dataSource->moveToArchive($file->name);
+						$this->exceptionParser->parse($errorFileContent);
 
-					$errorMessage = $this->exceptionParser->getMessage();
-					$title = $this->exceptionParser->getTitle();
+						$errorMessage = $this->exceptionParser->getMessage();
+						$title = $this->exceptionParser->getTitle();
 
-					$errorRow = $this->errorEntity->insert(array(
-						"project_id" => $projects[$projectName]->id,
-						"error_status_id" => $statusNewRow->id,
-						"title" => $title,
-						"message" => $this->exceptionParser->getMessage(),
-						"source_file" => $this->exceptionParser->getSourceFile(),
-						"remote_file" => $archiveFilePath,
-						"error_dt" => $file->lastModified,
-						"ins_process_id" => __METHOD__
-					));
+						$errorRow = $this->errorEntity->insert(array(
+							"project_id" => $projects[$projectName]->id,
+							"error_status_id" => $statusNewRow->id,
+							"title" => $title,
+							"message" => $this->exceptionParser->getMessage(),
+							"source_file" => $this->exceptionParser->getSourceFile(),
+							"remote_file" => $archiveFilePath,
+							"error_dt" => $file->lastModified,
+							"ins_process_id" => __METHOD__
+						));
 
-					$link = "http://" . $_SERVER["HTTP_HOST"] . "/error-list/display/" . $errorRow->id;
+						$link = "http://" . $_SERVER["HTTP_HOST"] . "/error-list/display/" . $errorRow->id;
 
-					$this->hipChat->sendMessage("<b>$projectName</b> - $title - $errorMessage <a href=\"$link\">Show!</a>");
+						$this->hipChat->sendMessage("<b>$projectName</b> - $title - $errorMessage <a href=\"$link\">Show!</a>");
+					} catch (InvalidArgumentException $e) {
+						// file does not exists in source, how it can happen? That's the question, he?
+					};
+
 				}
 			}
 		}

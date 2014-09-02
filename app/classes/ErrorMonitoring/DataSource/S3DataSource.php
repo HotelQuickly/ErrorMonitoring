@@ -2,6 +2,8 @@
 
 namespace HQ\ErrorMonitorinq\Datasource;
 
+use Nette\InvalidArgumentException;
+
 class S3DataSource extends \Nette\Object implements IDataSource {
 
     /** @var \HQ\Aws\S3Proxy */
@@ -23,7 +25,7 @@ class S3DataSource extends \Nette\Object implements IDataSource {
 			$this->proxy->downloadFile($filePath, $targetPath);
 			$content = file_get_contents($targetPath);
 		} catch (\Aws\S3\Exception\NoSuchKeyException $e) {
-			$content = '';
+			throw new InvalidArgumentException('Key "' . $filePath . '" does not exists in storage.');
 		};
 		unlink($targetPath);
 		return $content;
