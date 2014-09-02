@@ -11,7 +11,8 @@ class ExceptionParser extends \Nette\Object {
 	/** @var \DOMDocument */
 	protected $domDocument;
 
-	public function parse($html) {
+	public function parse($html)
+	{
 
 		if (!$this->domDocument) {
 			$this->domDocument = new \DOMDocument();
@@ -25,21 +26,20 @@ class ExceptionParser extends \Nette\Object {
 
 		$this->title = $titleItem ? $titleItem->textContent : 'N/A';
 
-		$messageNode = $this->domDocument
-			->getElementsByTagName("p")
-			->item(0);
-
-		if($messageNode) {
-			$messageNode->removeChild($messageNode->lastChild);
-			$this->message = trim($messageNode->textContent);
-		} else {
-			$this->message = 'N/A';
-		}
-
 		$sourceFileElement = $this->domDocument->getElementById("netteBsPnl1");
 		$sourceFileLinkNode = $sourceFileElement->getElementsByTagName("a")->item(0);
 
 		$this->sourceFile = trim($sourceFileLinkNode->textContent);
+		try {
+			$messageNode = $this->domDocument
+				->getElementsByTagName("p")
+				->item(0);
+
+			$messageNode->removeChild($messageNode->lastChild);
+			$this->message = trim($messageNode->textContent);
+		} catch (\Exception $e) {
+			$this->message = 'Unable to parse';
+		};
 	}
 
 	public function getTitle() {
