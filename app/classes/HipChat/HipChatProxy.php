@@ -2,6 +2,8 @@
 
 namespace HQ\HipChat;
 
+use HipChat\HipChat_Exception;
+
 class HipChatProxy extends \Nette\Object
 {
 
@@ -31,7 +33,15 @@ class HipChatProxy extends \Nette\Object
 		}
 
 		$this->hipChat->set_verify_ssl(false);
-		$this->hipChat->message_room($this->room, $this->sender, $message);
+		try {
+			$this->hipChat->message_room($this->room, $this->sender, $message);
+		} catch (HipChat_Exception $e) {
+			if ($e->getCode() == 403) {
+				// do nothing it's rate limit exceeded
+			} else {
+				throw $e;
+			}
+		}
 	}
 
 	public function setSender($sender)
