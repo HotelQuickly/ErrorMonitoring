@@ -72,7 +72,7 @@ class EmailReporter extends \Nette\Object
 		$mail = $this->mailMessageFactory->create();
 		$mail->setFrom($this->emailHeaders['from'])
 			->addTo($this->emailHeaders['to'])
-			->setSubject($this->emailHeaders['subject'])
+			->setSubject($this->emailHeaders['subject'] . ' ' . (new \DateTime)->format('Y-m-d H:i'))
 			->setHtmlBody($template);
 
 		$this->mailer->send($mail);
@@ -94,4 +94,4 @@ class EmailReporter extends \Nette\Object
 			));
 		}
 	}
-} 
+}
