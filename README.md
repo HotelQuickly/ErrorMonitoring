@@ -16,6 +16,9 @@ Project for monitoring all errors and exceptions files across projects
 5. Configure database, AWS access keys, hipchat API key and others if neccessary in app/config/config.local.neon (use config.local.template.neon as template)
 6. Visit ```localhost/error-monitoring/changelog``` (or appropriate name, depends how do you use your localhost) for additional database table installation
 
+## Storage for exceptions
+Currently only implementation is AWS S3 storage. Feel free to implement another storage and send pull request.
+
 ## Usage
 Exceptions are uploaded to AWS S3 storage from other projects using [ErrorCollector](https://github.com/hotelquickly/errorCollector).
 
