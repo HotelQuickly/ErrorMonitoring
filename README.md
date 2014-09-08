@@ -39,7 +39,7 @@ Place this in config.local.neon
 parameters:
         aws:
 		    s3:
-			    accessKeyId: 
+			    accessKeyId:
 			    secretAccessKey:
 			    bucket:
 			    region:
@@ -53,4 +53,5 @@ All files in exception folder will be parsed and moved to archive folder.
 ```
 <project-name>/archive/exception/<file-name>.html
 ```
+
 
