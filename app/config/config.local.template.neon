@@ -1,10 +1,5 @@
 parameters:
 	apiTargetHosts:
-	database:
-		default:
-			dsn: 'mysql:host=localhost;dbname=hq_error_monitoring'
-			user: root
-			password: kopretina1
 
 	aws:
 		s3:
@@ -14,3 +9,10 @@ parameters:
 			region: 'ap-southeast-1'
 	hipchat:
 		apiKey:
+
+database:
+	dsn: 'mysql:host=localhost;dbname=**DB_NAME**'
+	user: **USER_NAME**
+	password: **PASSWORD**
+	options:
+		lazy: yes

@@ -55,26 +55,6 @@ abstract class BasePresenter extends Nette\Application\UI\Presenter {
 			);
 		}
 
-		// Log newrelic transaction name
-		if (!empty($this->name) && !empty($this->action)) {
-			$name = strrpos($this->name, ':');
-			if ($name === FALSE) {
-				$moduleName = 'N/A';
-				$presenterName = $this->name;
-				$actionName = $this->action;
-			} else {
-				$moduleName = substr($this->name, 0, $name);
-				$presenterName = substr($this->name, $name + 1);
-				$actionName = $this->action;
-			}
-			if (extension_loaded('newrelic')) {
-				// Set api application name for newrelic tracking
-				$prefix = $this->context->parameters['newrelic']['application']['prefix'];
-				$allName = $this->context->parameters['newrelic']['application']['allName'];
-				newrelic_set_appname("$prefix $moduleName;$allName");
-				newrelic_name_transaction($moduleName . ':' . $presenterName . ':' . $actionName);
-			}
-		}
 	}
 
 

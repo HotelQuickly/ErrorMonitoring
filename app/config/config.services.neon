@@ -9,7 +9,6 @@ services:
 	dbChangelog:
 		class: ChangelogModule\DbChangelog
 		arguments: [@nette.database.default.context, @nette.database.default.context::table(changelog), %appDir%]
-	errorMessageService: HQ\Api\ErrorMessageService
 	s3Proxy: HQ\Aws\S3Proxy(%aws%)
 	s3DataSource: HQ\ErrorMonitorinq\Datasource\S3DataSource(%tempDir%, ...)
 	importService: HQ\ErrorMonitorinq\ImportService(%tempDir%, ...)
