@@ -42,7 +42,7 @@ class DbChangelog extends \Nette\Object {
 		$errors = array();
 		foreach ($queries as $query) {
 			try {
-				$test = $this->connection->exec($query->query);
+				$test = $this->connection->query($query->query);
 				// update query as executed
 				$query->update(array('executed' => 1));
 			} catch (\Exception $e) {
