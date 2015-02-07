@@ -35,8 +35,12 @@ class ExceptionParser extends \Nette\Object {
 				->getElementsByTagName("p")
 				->item(0);
 
-			$messageNode->removeChild($messageNode->lastChild);
-			$this->message = trim($messageNode->textContent);
+			if (is_object($messageNode)) {
+				$messageNode->removeChild($messageNode->lastChild);
+				$this->message = trim($messageNode->textContent);
+			} else {
+				$this->message = 'Unable to parse';
+			}
 		} catch (\Exception $e) {
 			$this->message = 'Unable to parse';
 		};
