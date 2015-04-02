@@ -16,7 +16,7 @@ require __DIR__ . '/../vendor/autoload.php';
 // Enable Nette Debugger for error visualisation & logging
 Debugger::$logDirectory = __DIR__ . '/../log';
 Debugger::$strictMode = TRUE;
-Debugger::$email = 'it@hotelquickly.com';
+Debugger::$email = 'dont-send-emails@random.com';
 
 // $debugArray is defined in setup-debug-mode.php
 if (function_exists('isDebugMode') AND isDebugMode($debugArray) == true) {
