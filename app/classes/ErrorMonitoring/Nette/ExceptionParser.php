@@ -26,11 +26,12 @@ class ExceptionParser extends \Nette\Object {
 
 		$this->title = $titleItem ? $titleItem->textContent : 'N/A';
 
-		$sourceFileElement = $this->domDocument->getElementById("netteBsPnl1");
-		$sourceFileLinkNode = $sourceFileElement->getElementsByTagName("a")->item(0);
-
-		$this->sourceFile = trim($sourceFileLinkNode->textContent);
 		try {
+			$sourceFileElement = $this->domDocument->getElementById("netteBsPnl1");
+			$sourceFileLinkNode = $sourceFileElement->getElementsByTagName("a")->item(0);
+
+			$this->sourceFile = trim($sourceFileLinkNode->textContent);
+
 			$messageNode = $this->domDocument
 				->getElementsByTagName("p")
 				->item(0);
