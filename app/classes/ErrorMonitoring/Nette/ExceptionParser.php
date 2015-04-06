@@ -28,6 +28,10 @@ class ExceptionParser extends \Nette\Object {
 
 		try {
 			$sourceFileElement = $this->domDocument->getElementById("netteBsPnl1");
+			if ( ! is_object($sourceFileElement)) {
+				$this->message = 'Empty';
+				return;
+			}
 			$sourceFileLinkNode = $sourceFileElement->getElementsByTagName("a")->item(0);
 
 			$this->sourceFile = trim($sourceFileLinkNode->textContent);
