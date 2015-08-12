@@ -52,7 +52,7 @@ class ErrorListPresenter extends BasePresenter {
 
 	public function handleArchive($id) {
 		$this->errorEntity->archive($id);
-		$this->invalidateControl();
+		$this->redrawControl();
 	}
 
 	public function handleLoadExceptions() {
@@ -60,12 +60,18 @@ class ErrorListPresenter extends BasePresenter {
 		$this->template->lastUpdate = $this->cache->load("lastUpdate", function () {
 			return null;
 		});
-		$this->invalidateControl();
+		$this->redrawControl();
 	}
 
 	public function handleProjectScan() {
 		$this->importService->importProjects();
-		$this->invalidateControl();
+		$this->redrawControl();
+	}
+
+
+	public function handleArchiveAllExceptions() {
+		$this->errorEntity->archiveAll();
+		$this->redrawControl();
 	}
 
 	public function createComponentErrorGrid() {

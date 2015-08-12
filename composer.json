@@ -16,7 +16,7 @@
 	},
 	"require": {
 		"php": ">= 5.3.0",
-		"nette/nette": ">= 2.2.0",
+		"nette/nette": "~2.3.0",
 		"JanMarek/WebLoader": "~2.2.0",
 		"kdyby/autowired": "@dev",
 		"aws/aws-sdk-php": "2.5.*",
