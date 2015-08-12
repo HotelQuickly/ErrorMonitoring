@@ -50,4 +50,4 @@ if ($configurator->isDebugMode()) {
 }
 
 // Configure and run the application!
-$container->application->run();
+$container->getByType('Nette\Application\Application')->run();
