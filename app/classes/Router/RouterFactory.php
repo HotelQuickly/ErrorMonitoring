@@ -29,22 +29,22 @@ class RouterFactory
 	{
 		$router = new RouteList();
 
+		$secureRoutes = ($this->secureRoutes)? Route::SECURED : 0;
+
 		// Changelog Router
 		$changelogRouter = new RouteList('Changelog');
-		$changelogRouter[] = new Route('changelog/<presenter>/<action>[/<id>]', 'Changelog:default');
+		$changelogRouter[] = new Route('changelog/<presenter>/<action>[/<id>]', 'Changelog:default', $secureRoutes);
 		$router[] = $changelogRouter;
 
 		// Cron Router
 		$cronRouter = new RouteList('Cron');
-		$cronRouter[] = new Route('cron/<presenter>/<action>[/<id>]', 'Homepage:default');
+		$cronRouter[] = new Route('cron/<presenter>/<action>[/<id>]', 'Homepage:default', $secureRoutes);
 		$router[] = $cronRouter;
 
 		// Task Router
 		$taskRouter = new RouteList('Task');
-		$taskRouter[] = new Route('task/<presenter>/<action>[/<id>]', 'Homepage:default');
+		$taskRouter[] = new Route('task/<presenter>/<action>[/<id>]', 'Homepage:default', $secureRoutes);
 		$router[] = $taskRouter;
-
-		$secureRoutes = ($this->secureRoutes)? Route::SECURED : 0;
 
 		// One way routes
 		$router[] = new Route('logout/', 'Secured:logout', Route::ONE_WAY);
@@ -54,24 +54,24 @@ class RouterFactory
 
 		// API Router
 		$apiRouter = new RouteList('Api');
-		$apiRouter[] = new Route('api/<apiVersion>/<presenter>[/<action>]', 'Homepage:default');
+		$apiRouter[] = new Route('api/<apiVersion>/<presenter>[/<action>]', 'Homepage:default', $secureRoutes);
 		$router[] = $apiRouter;
 
 		$adminRouter = new RouteList('Admin');
-		$adminRouter[] = new Route('admin/<presenter>/<action>[/<id>]', 'Homepage:default');
+		$adminRouter[] = new Route('admin/<presenter>/<action>[/<id>]', 'Homepage:default', $secureRoutes);
 		$router[] = $adminRouter;
 
 		// Frontend Router
 		$frontendRouter = new RouteList('Frontend');
-		$frontendRouter[] = new Route('healthy-check', 'HealthyCheck:default');
-		$frontendRouter[] = new Route('[<lang=en [a-z]{2}>/]', 'Homepage:default');
-		$frontendRouter[] = new Route('<presenter>/<action>[/<id>]', 'Homepage:default');
+		$frontendRouter[] = new Route('healthy-check', 'HealthyCheck:default', $secureRoutes);
+		$frontendRouter[] = new Route('[<lang=en [a-z]{2}>/]', 'Homepage:default', $secureRoutes);
+		$frontendRouter[] = new Route('<presenter>/<action>[/<id>]', 'Homepage:default', $secureRoutes);
 		$router[] = $frontendRouter;
 
 
 		// Other routes
 		$router[] = new Route('login/', 'Login:default', $secureRoutes);
-		$router[] = new Route('error', 'Error:default');
+		$router[] = new Route('error', 'Error:default', $secureRoutes);
 
 		return $router;
 	}
