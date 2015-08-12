@@ -48,7 +48,7 @@ final class TemplateFactory extends Nette\Object
 		Nette\Caching\IStorage $netteCacheStorage
 	) {
 		$this->container = $container;
-		$this->latteFactory = $container->createServiceNette__latteFactory();
+		$this->latteFactory = $container->getByType('Nette\Bridges\ApplicationLatte\ILatteFactory');
 		$this->translator = $translator;
 		$this->appDir = $appDir;
 		$this->httpResponse = $httpResponse;

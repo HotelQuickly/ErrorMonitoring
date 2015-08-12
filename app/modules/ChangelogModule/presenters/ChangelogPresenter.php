@@ -5,15 +5,20 @@ namespace ChangelogModule;
 /**
  * @author Josef Nevoral <josef.nevoral@gmail.com>
  */
-class ChangelogPresenter extends \SecuredPresenter {
+class ChangelogPresenter extends \SecuredPresenter
+{
 
-	/** @autowire @var \HQ\Model\Entity\ChangelogEntity */
+	/** @var \HQ\Model\Entity\ChangelogEntity @autowire */
 	protected $changelogEntity;
+
+	/** @var  DbChangelog @autowire */
+	protected $dbChangelogService;
+
 
 	public function actionDefault()
 	{
 		$this->template->errors = array();
-		$this->context->dbChangelog->importNewChangelogData();
+		$this->dbChangelogService->importNewChangelogData();
 	}
 
 	public function handleExecuteQueries()
@@ -21,7 +26,7 @@ class ChangelogPresenter extends \SecuredPresenter {
 		$queriesToExecute = $this->changelogEntity->getTable()
 			->where('executed', 0)
 			->order('id');
-		$errors = $this->context->dbChangelog->executeQueries($queriesToExecute);
+		$errors = $this->dbChangelogService->executeQueries($queriesToExecute);
 		if (empty($errors)) {
 			$this->flashMessage('All queries has been executed successfully', 'success');
 			$this->redirect('Changelog:');
@@ -52,7 +57,7 @@ class ChangelogPresenter extends \SecuredPresenter {
 	public function addToChangelog($form)
 	{
 		$values = $form->getValues();
-		$this->context->dbChangelog->addNewQueries($values['description'], $values['queries']);
+		$this->dbChangelogService->addNewQueries($values['description'], $values['queries']);
 
 		$this->flashMessage('Queries saved');
 		$this->redirect('add');
