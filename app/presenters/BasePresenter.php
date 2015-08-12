@@ -41,7 +41,7 @@ abstract class BasePresenter extends Nette\Application\UI\Presenter {
 
 		// Log visits
 		$requestHeaders = apache_request_headers();
-		$ipAddress = (empty($requestHeaders['X-Forwarded-For']) ? $httpRequest->getRemoteAddress() : $requestHeaders['X-Forwarded-For']);
+		$ipAddress = (empty($_SERVER['HTTP_X_FORWARDED_FOR']) ? $this->getHttpRequest()->getRemoteAddress() : $_SERVER['HTTP_X_FORWARDED_FOR']);
 		// ip address can be more values divided by comma (it's path to remote server), take only the last (most accurate IP of visitor)
 		$ipAddressParts = explode(',', $ipAddress);
 		$ipAddress = array_pop($ipAddressParts);
