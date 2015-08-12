@@ -13,6 +13,11 @@ class ExceptionParser extends \Nette\Object {
 
 	public function parse($html)
 	{
+		if (empty($html)) {
+			$this->title = $this->message = 'Empty exception';
+			$this->sourceFile = '';
+			return false;
+		}
 
 		if (!$this->domDocument) {
 			$this->domDocument = new \DOMDocument();
@@ -32,6 +37,7 @@ class ExceptionParser extends \Nette\Object {
 				// backward compatibility with nette < 2.2
 				$sourceFileElement = $this->domDocument->getElementById("netteBsPnl1");
 			}
+
 			$sourceFileLinkNode = $sourceFileElement->getElementsByTagName("a")->item(0);
 
 			$this->sourceFile = trim($sourceFileLinkNode->textContent);
