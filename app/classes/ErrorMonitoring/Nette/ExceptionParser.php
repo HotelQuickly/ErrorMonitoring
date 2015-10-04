@@ -32,15 +32,14 @@ class ExceptionParser extends \Nette\Object {
 		$this->title = $titleItem ? $titleItem->textContent : 'N/A';
 
 		try {
-			$sourceFileElement = $this->domDocument->getElementById("tracyBsPnl1");
-			if ( ! is_object($sourceFileElement)) {
-				// backward compatibility with nette < 2.2
-				$sourceFileElement = $this->domDocument->getElementById("netteBsPnl1");
+			$sourceFileElement = $this->domDocument->getElementById("tracy-bs-error");
+			if (is_object($sourceFileElement)) {
+				$sourceFileLinkNode = $sourceFileElement->getElementsByTagName("a")->item(0);
+
+				$this->sourceFile = trim($sourceFileLinkNode->textContent);
+			} else {
+				$this->sourceFile = 'Unknown format of exception';
 			}
-
-			$sourceFileLinkNode = $sourceFileElement->getElementsByTagName("a")->item(0);
-
-			$this->sourceFile = trim($sourceFileLinkNode->textContent);
 
 			$messageNode = $this->domDocument
 				->getElementsByTagName("p")
