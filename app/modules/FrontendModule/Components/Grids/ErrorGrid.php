@@ -58,7 +58,7 @@ class ErrorGrid extends Grid {
 			->setTextFilter()
 			->setRenderer(function($row) use ($presenter) {
 				return \Nette\Utils\Html::el("a")
-					->setText(Strings::truncate($row["message"], 60))
+					->setText(trim($row["message"]) ? Strings::truncate($row["message"], 60) : $row["id"])
 					->addAttributes(array("target" => "_blank"))
 					->href($presenter->link("ErrorList:display", $row["id"]));
 			});
